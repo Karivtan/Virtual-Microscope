@@ -70,20 +70,36 @@ body, html {
 
 .bottom-left-bottom {
   flex: 1; /* Take up available space */
+  
   background-color: rgb(133, 146, 188);
     /*display: flex; /* Center content if needed */
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-content: center;
     align-items: center;
 }
 
 .bottom-right {
+  display: grid;
+  grid-template-rows: 5fr 1fr;
+  
+  flex-direction: column; /* Stack items vertically */
   background-color: rgb(255, 255, 255); /* Example styling */
-    display: flex; /* Center content if needed */
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
+
+.bottom-right-top {
+    display:grid;
+    grid-template-columns:1fr;
+  background-color: rgb(255, 155, 255); /* Example styling */
+}
+
+.bottom-right-bottom {
+    display:grid;
+  background-color: rgb(255, 155, 255); /* Example styling */
+}
+
 
 #Assignment {
     font-size: 2.5em;
@@ -113,9 +129,24 @@ body, html {
 
 }
 #explanation{
-  grid-column: 1 / 4; /* Span from column 1 to 4 (i.e., across 3 columns) */
+  grid-column: 1 / 5; /* Span from column 1 to 4 (i.e., across 3 columns) */
   white-space: pre-wrap; /* Important for \n to work */
 }
+
+#condensor{
+  grid-column: 1 / 5; /* Span from column 1 to 4 (i.e., across 3 columns) */
+  white-space: pre-wrap; /* Important for \n to work */
+  background-color:white; 
+  color:white;
+   background-image:
+  linear-gradient(to right,
+      rgba(255, 255, 255, 0) 0%,   /* Transparent at the very left edge */
+      black 30%,                   /* Solid navy starts at 10% from left */
+      black 70%,                   /* Solid navy ends at 90% from left */
+      rgba(255, 255, 255, 0) 100%  /* Transparent at the very right edge */
+    );
+}
+
 
 </style>
 <body>
@@ -123,16 +154,17 @@ body, html {
 <div class="container">
   <div class="top-row">
     <div class="top-row-left">
-        <a href="Assignment1.html">
+        <a href="Assignment2.html">
       <button id="Previous">Previous Assignment</button>
         </a>
     </div>
     <div class="top-row-middle">
-      <h1 id="Assignment">Assignment 1</h1>
+      <h1 id="Assignment">Assignment 3</h1>
     </div>
     <div class="top-row-right">
-        <a href="Assignment3.html"
-      <button id="Next">Next Assignment</button>
+      <a href ="Assignment4.html">
+        <button id="Next">Next Assignment</button>
+      </a>
     </div>
   </div>
   <div class="bottom-left">
@@ -145,31 +177,38 @@ body, html {
     </div>  
     <div class="bottom-left-bottom" id="bottom-left-bottom">
         <p class = "explanation" id="explanation" >To kohler the microscope use the controls on the microscope.</p>
+        <h2 class = "condensor" id="condensor">Brightfield</h2>
         <button class = "bottombutton" id="rotate">Rotate the microscope</button>
+        <button class = "bottombutton" id="RotateCDButton">Rotate the condensor</button>
         <button class = "bottombutton" id="loadButton">Load Sample</button>
         <button class = "bottombutton" id="ocularButton">Take out ocular</button>
     </div>
   </div>
   <div class="bottom-right">
-    <title>Microscope</title>
-    <style>
-      body {
-          display: flex;
-          justify-content: center; /* Horizontally center content */
-          align-items: center;     /* Vertically center content */
-          height: 100%;           /* Make body take full iframe height */
-          margin: 0;              /* Remove default margins */
+    <div class="bottom-right-top" id="bottom-right-top">
+        <title>Microscope</title>
+        <style>
+        body {
+              display: flex;
+              justify-content: center; /* Horizontally center content */
+              align-items: center;     /* Vertically center content */
+              height: 100%;           /* Make body take full iframe height */
+              margin: 0;              /* Remove default margins */
         }
-        
         img {
-          max-width: 100%;      /* Prevent image from overflowing */
-          max-height: 100%;     /* Prevent image from overflowing */
+            max-width: 100%;      /* Prevent image from overflowing */
+            max-height: 100%;     /* Prevent image from overflowing */
         }
-    </style>
-  <img id="Microscope" src="Primostar1.jpg" alt="Microscope" title="MicRight.jpg"
-  style="width:100%;height:100%; object-fit: contain;">
+        </style>
+        <img id="Microscope" src="Primostar1.jpg" alt="Microscope" title="MicRight.jpg"
+        style="width:100%;height:100%; object-fit: contain;">
+    </div>  
+    <div class="bottom-right-bottom" id="bottom-right-bottom">
+        <h3 id="CondImage" >Condensor</h3>
+    </div>
+  </div>
 
-<script src="Assignment2.js"></script> 
+<script src="Assignment3.js"></script> 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
