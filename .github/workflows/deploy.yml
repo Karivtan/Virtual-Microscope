@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+# When should this workflow run?
+on:
+  push:
+    branches:
+      # Change this to your main development branch (e.g., 'master' or 'main')
+      - main 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          # This is necessary for the deploy action to work correctly
+          persist-credentials: false
+
+      - name: Install dependencies (if needed)
+        # Uncomment and update this if your project uses npm, yarn, etc.
+        # run: npm install
+
+      - name: Build project (if needed)
+        # Uncomment and update this if your project uses a build command
+        # run: npm run build
+      
+      # The main deployment action
+      - name: Deploy to GH Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # This secret holds the Personal Access Token (PAT) from Step 2
+          github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          
+          # The location of the files to be deployed.
+          # - Use './' if your static files are in the root of the repo (e.g., plain HTML/CSS/JS).
+          # - Use './dist' or './build' if your previous step creates a production folder.
+          publish_dir: ./ 
+          
+          # The destination repository where the files will be pushed.
+          # MUST be the repository for your GitHub Pages site (e.g., yourusername.github.io)
+          external_repository: <YOUR-USERNAME>/<YOUR-USERNAME>.github.io 
+          
+          # Sets the commit author as the GitHub Actions bot
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
