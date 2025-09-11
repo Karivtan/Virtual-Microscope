@@ -22,7 +22,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           # This secret holds the Personal Access Token (PAT) from Step 2
-	  #test new token
+	  # test new token
           github_token: ${{ secrets.GH_Pages_Deploy }}
 	
           
