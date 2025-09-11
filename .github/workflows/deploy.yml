@@ -31,7 +31,7 @@ jobs:
           
           # The destination repository where the files will be pushed.
           # MUST be the repository for your GitHub Pages site (e.g., yourusername.github.io)
-          external_repository: karivta/karivtan.github.io 
+          external_repository: karivtan/karivtan.github.io 
           
           # Sets the commit author as the GitHub Actions bot
           user_name: 'github-actions[bot]'
