@@ -23,7 +23,7 @@ jobs:
         with:
           # This secret holds the Personal Access Token (PAT) from Step 2
 	  # test new token test
-          github_token: ${{ secrets.GH_Pages_Deploy }}
+          github_token: ${{ secrets.DEPLOY_AS_WEPPAGE }}
 	
           
           # The location of the files to be deployed.
