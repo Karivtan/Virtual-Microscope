@@ -17,14 +17,6 @@ jobs:
           # This is necessary for the deploy action to work correctly
           persist-credentials: false
 
-      - name: Install dependencies (if needed)
-        # Uncomment and update this if your project uses npm, yarn, etc.
-        # run: npm install
-
-      - name: Build project (if needed)
-        # Uncomment and update this if your project uses a build command
-        # run: npm run build
-      
       # The main deployment action
       - name: Deploy to GH Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -39,7 +31,7 @@ jobs:
           
           # The destination repository where the files will be pushed.
           # MUST be the repository for your GitHub Pages site (e.g., yourusername.github.io)
-          external_repository: <YOUR-USERNAME>/<YOUR-USERNAME>.github.io 
+          external_repository: karivta/karivtan.github.io 
           
           # Sets the commit author as the GitHub Actions bot
           user_name: 'github-actions[bot]'
