@@ -164,6 +164,22 @@ myImage.addEventListener('click', function(event) {
          (percx < 52.5 && percx > 46.5 && percy < 25 && percy > 14 && myImage.title == "OlympusFront.png")||
          (percx < 53 && percx > 50 && percy < 24.5 && percy > 18 && myImage.title == "NikonFront.png")||
          (percx < 52 && percx > 47 && percy < 24 && percy > 14 && myImage.title == "LeicaFront.png")
+
+         (percx < 60.5 && percx > 57.5 && percy < 13 && percy > 10 && myImage.title == "ZeissLeft.png")||
+         (percx < 45.5 && percx > 41 && percy < 15.5 && percy > 10.5 && myImage.title == "ZeissRight.jpg")|| 
+         (percx < 36.5 && percx > 33.5 && percy < 22.5 && percy > 15 && myImage.title == "OlympusRight.png")||
+         
+         (percx < 65 && percx > 61.5 && percy < 20 && percy > 13 && myImage.title == "OlympusLeft.png")|| 
+         (percx < 64.5 && percx > 61.5 && percy < 22.5 && percy > 18 && myImage.title == "NikonLeft.png")||
+         
+         (percx < 42.5 && percx > 35 && percy < 25.5 && percy > 18 && myImage.title == "NikonRight.png")||
+         (percx < 63 && percx > 55 && percy < 64 && percy > 61 && myImage.title == "LeicaLeft.png")||
+         
+         (percx < 70 && percx > 65 && percy < 23 && percy > 19 && myImage.title == "LeicaRight.png")
+
+
+
+
         ) {
         toastr.success('Well done, moving on');
         questionNumber++;
