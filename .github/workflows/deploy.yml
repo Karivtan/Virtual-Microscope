@@ -23,7 +23,9 @@ jobs:
         with:
           # This secret holds the Personal Access Token (PAT) from Step 2
 #test new token
-          github_token: ${{ secrets.DEPLOY_AS_WEPPAGE }}
+          #github_token: ${{ secrets.DEPLOY_AS_WEPPAGE }}
+	  github_token: ${{ secrets.GH_Pages_Deploy }}
+	
           
           # The location of the files to be deployed.
           # - Use './' if your static files are in the root of the repo (e.g., plain HTML/CSS/JS).
