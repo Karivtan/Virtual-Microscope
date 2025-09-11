@@ -22,9 +22,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           # This secret holds the Personal Access Token (PAT) from Step 2
-#test new token
-          #github_token: ${{ secrets.DEPLOY_AS_WEPPAGE }}
-	  github_token: ${{ secrets.GH_Pages_Deploy }}
+	  #test new token
+          github_token: ${{ secrets.GH_Pages_Deploy }}
 	
           
           # The location of the files to be deployed.
