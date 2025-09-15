@@ -176,10 +176,6 @@ myImage.addEventListener('click', function(event) {
          (percx < 63 && percx > 55 && percy < 64 && percy > 61 && myImage.title == "LeicaLeft.png")||
          
          (percx < 70 && percx > 65 && percy < 23 && percy > 19 && myImage.title == "LeicaRight.png")
-
-
-
-
         ) {
         toastr.success('Well done, moving on');
         questionNumber++;
