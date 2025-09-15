@@ -366,12 +366,13 @@ MicImage.addEventListener('touchstart', function(event){  // equal to mousedown
   // this method gives the absolute pixel positions on the image whether or not zoomed in or not 
   // Return the final position only if the click was within the visible image
   //console.log(finalX.toFixed(1)+", "+finalY.toFixed(1));
-  console.log("Image was mousedowned! at x="+ percx.toFixed(0) +", y="+ percy.toFixed(0));
+  console.log("Image was touched! at x="+ percx.toFixed(0) +", y="+ percy.toFixed(0));
   
   // here we can set all locations to verify with the image
   // add all locations with zoom on condensor
-    mouseDownY=event.clientY;
-    mouseDownX=event.clientX;
+    mouseDownY=event.touches[0].clientY;
+    console.log(mouseDownY);
+    mouseDownX=event.touches[0].clientX;
     if (// the field diaphragm is clicked
          (percx < 1650 && percx > 1225 && percy < 2500 && percy > 2250 && MicImage.title == "ZeissLeft.png")||
          (percx < 1975 && percx > 1475 && percy < 2950 && percy > 2650 && MicImage.title == "ZeissFront.png")||
@@ -619,9 +620,11 @@ MicImage.addEventListener('mousedown', function(event) { // check all the possib
     //console.log(`Image was mousedowned! at x=${percx.toFixed(1)}, y= ${percy.toFixed(1)}, focus =${Focus}, ${DFDragging} , ${FDFocus}, ${IntDrag}`) ;
 });
 
-document.addEventListener('touchmove', (e) => ) {
-  distanceY=mouseDownY-e.clientY; //always starts at 0,0 compared to where we clicked
-  distanceX=mouseDownX-e.clientX;
+document.addEventListener('touchmove', (e) =>  {
+  const ev = e.touches ? e.touches[0] : e;
+  console.log('touchdown '+mouseDownY);
+  distanceY=mouseDownY-ev.clientY; //always starts at 0,0 compared to where we clicked
+  distanceX=mouseDownX-ev.clientX;
   //console.log("mousemove "+xoffsetFD+", "+yoffsetFD+", "+cAS);
   //console.log(assignmentNumber);
   if (DFDragging) { // If the mouse is  being dragged we need to add the field diaphragm
@@ -634,7 +637,7 @@ document.addEventListener('touchmove', (e) => ) {
     FDImage.style.transform = "translateX("+xoffsetFD+"px) translateY("+yoffsetFD+"px) scale("+cAS+")";
     //FDImage.style.transform = "scale("+cAS+")"; this does not work as it always resets to the centre
   } else if (Focus){
-      //console.log(cFS+','+FS+',');
+    console.log('focussing ' +cFS+','+FS+',');
     cFS=Math.max(-10,Math.min(10,FS-distanceY/20)); // cannot be more than 10, and cannot be less than -10
     cFDF=Math.min(10,FDF+Math.abs(distanceY/50));
     SampleImage.style.filter = "blur("+Math.abs(cFS)+"px)";
@@ -675,7 +678,7 @@ document.addEventListener('touchmove', (e) => ) {
     console.log("totInt "+totInt);
     SampleImage.style.filter = "brightness("+totInt+")";
   } 
-}
+});
 
 document.addEventListener('mousemove', (e) => { // depending on where the image was mousedowned will act on what was clicked and what the dragging means for that component
   distanceY=mouseDownY-e.clientY; //always starts at 0,0 compared to where we clicked
