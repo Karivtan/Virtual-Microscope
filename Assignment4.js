@@ -1,12 +1,13 @@
 /*
 #TODO more samples
-#TODO more realistig condensor effects and link between condensor and image, 
-    check all button positions
-    toastr checklist in green appearing indefinitely on the right top?
+# What do we want to achieve
+1. insight into Ph rings and objective correlation
+2. insight into condensor diaphragm with PH rings
+3. phase ring alignment?
 
 */
 
-console.log("Assignment 3 loaded");
+console.log("Assignment 2 loaded");
 // constants needed for script
 // button components
 const rotateLeft = document.getElementById('rotateLeft'); // Rotates the microscope image
@@ -16,8 +17,6 @@ const zoomButton = document.getElementById('zoomButton');
 const loadButton = document.getElementById('loadButton');
 const ocularButton = document.getElementById('ocularButton');
 const nextButton = document.getElementById('Next');
-const LB=document.getElementById('Leica');
-const NB=document.getElementById('Nikon');
 const OB=document.getElementById('Olympus');
 const ZB=document.getElementById('Zeiss');
 const rotbut=document.getElementById('rotate');
@@ -35,12 +34,12 @@ const micHTML = document.getElementById('micIm');
 const myObjectives =[10,20,40,100];
 const myMagnifications = [1,2,4,10];
 const myCDScales = [6,3.5,2,1.25];
-const LeicaTitles = ["LeicaLeft.png","LeicaFront.png","LeicaRight.png"];
-const NikonTitles =["NikonLeft.png","NikonFront.png","NikonRight.png"];
+const myPRScales=[0,1,2,4,7];
+const myPPScales=[1,2,2,4];
 const OlympusTitles =["OlympusLeft.png","OlympusFront.png","OlympusRight.png"];
 const ZeissTitles =["ZeissLeft.png","ZeissFront.png","ZeissRight.jpg" ];
-const MicBrand=["Leica","Nikon","Olympus","Zeiss"];
-const Mbuttons=[LB,NB,OB,ZB];
+const MicBrand=["Olympus","Zeiss"];
+const Mbuttons=[OB,ZB];
 
 // html component of the microscope image
 const MicImage = document.getElementById('Microscope');
@@ -58,23 +57,28 @@ viewImage.id = "view";
 let CDImage= document.createElement("img"); //Condensor diaphragm
 CDImage.src="fotos/diaphragmv4.png";
 CDImage.id = "CD";
+let PRImage= document.createElement("img"); //Phase ring
+PRImage.src="fotos/PhaseRing.png";
+PRImage.id = "PR";
 let zoomC=false;
-
+let PPImage= document.createElement("img"); //Phase ring
+PPImage.src="fotos/Phaseplate.png";
+PPImage.id = "PP";
 //variables needed for the script
 
 let sampleContainer = null;
 
 // all number variables
-let distanceY=0, distanceX=0, mouseDownY=0, mouseDownX=0, AS=15, cAS=15, FDF=0, IntTF=1, cIntTF=1, FS=Math.random()*20-10, cFS=FS, rot=10, crot=rot, SampleImageDisplaceX=0; SampleImageDisplaceY=0;;
-let cCD=0.8, CD=0.8, brandnr=Math.floor(Math.random()*4), cFDF=0, cyoffsetFD=0, cxoffsetFD=0, yoffsetFD=Math.random()*100-50, xoffsetFD=Math.random()*100-50, objectiveCount =0, cCont=1, cont=1;
-let assignmentNumber = 0, condInt=1.0, totInt=1.0;
+let distanceY=0, distanceX=0, mouseDownY=0, mouseDownX=0, AS=25, cAS=25, FDF=0, IntTF=1, cIntTF=1, FS=0, cFS=FS, rot=10, crot=rot, SampleImageDisplaceX=0; SampleImageDisplaceY=0;;
+let cCD=1, CD=1, brandnr=Math.floor(Math.random()*2), cFDF=0, cyoffsetFD=0, cxoffsetFD=0, yoffsetFD=0, xoffsetFD=0, objectiveCount =0, cCont=1, cont=1;
+let assignmentNumber = 0, condInt=1.0, totInt=1.0; let cPh=0;
 
 // all booleans
 let CDcentre=false, IntDrag=false, CondCenter=false, buttonclick =false, FDLoaded = false, FDcentre = false, FDcentreR =false, DFDragging = false, Focus = false, FDFocus = false, sampleDragging = false;
-let sampleLoaded=false, sampleFocussed = false, FDFocussed=false, FDCentered=false, FDCorrectSize=false,condensorCorrectSize=false, condSizeDrag = false;
+let sampleLoaded=true, sampleFocussed = false, FDFocussed=false, FDCentered=false, FDCorrectSize=false,condensorCorrectSize=false, condSizeDrag = false;
 
 // all strings
-let brand=MicBrand[brandnr], Titles=[LeicaTitles,NikonTitles,OlympusTitles,ZeissTitles], MyIms=Titles[brandnr], cTitle=MyIms[0];
+let brand=MicBrand[brandnr], Titles=[OlympusTitles,ZeissTitles], MyIms=Titles[brandnr], cTitle=MyIms[0];
 
 // script starts here
 
@@ -99,14 +103,16 @@ function updateAssignment() { // prepare everything for the assignment
     viewImage.style.visibility = "visible";
 
     // change texts
-    counthead.textContent = "Please kohler the microscope";
-    explanation.textContent="To kohler the microscope click the microscope controls on the microscope in the right picture.\n Dragging the buttons will allow you to focus, move the sample, open/close the field diaphragm."
+    counthead.textContent = "The microscope is kohlered, now align the phase rings";
+    explanation.textContent="To align the phase rings click the microscope controls on the microscope in the right picture.\n Dragging the buttons will allow you to move the phase rings."
 
     // load the viewimage
     loadView("View");
     loadFD("FD");
     loadSample("samples/sample.jpg", "Sample image");
     loadCD("CD"); 
+    loadPR("PR");
+    loadPP("PP");
     //console.log(cFS);
 }
 
@@ -126,13 +132,63 @@ function loadCD(altText){ //condensordiaphragm
   CDImage.style.top = "0";
   CDImage.style.left = "0";
   CDImage.style.zIndex = "2";
-  CDImage.style.transform = "scale("+myCDScales[objectiveCount]*CD+")";
+  CDImage.style.transform = "scale("+myCDScales[objectiveCount]*(objectiveCount+1)+")";
   CDImage.style.filter = "opacity(0.9)";
 
   bottomLeftMiddle.appendChild(CDImage);
   CDImage.style.visibility = "hidden";
   // Code to load the sample
   console.log("CD loaded!");
+}
+
+function loadPR(altText){ //phase ring
+  bottomLeftMiddle.style.width = "100%";
+  bottomLeftMiddle.style.height = "100%";
+  bottomLeftMiddle.style.overflow = "hidden";
+  bottomLeftMiddle.style.alignItems = "center";
+  // Check if the image already exists
+  PRImage.alt = altText;
+  PRImage.title = "Phase ring";
+  PRImage.style.width = "100%";
+  PRImage.style.height = "100%"; 
+  PRImage.style.overflow = "hidden";
+  PRImage.style.objectFit = "contain";
+  PRImage.style.position = "absolute";
+  PRImage.style.top = "0";
+  PRImage.style.left = "0";
+  PRImage.style.zIndex = "1";
+  PRImage.style.transform = "scale("+(myPRScales[0])+")";
+  PRImage.style.filter = "opacity(0.9)";
+
+  bottomLeftMiddle.appendChild(PRImage);
+  PRImage.style.visibility = "hidden";
+  // Code to load the sample
+  console.log("PR loaded!");
+}
+
+function loadPP(altText){ //phase plate
+  bottomLeftMiddle.style.width = "100%";
+  bottomLeftMiddle.style.height = "100%";
+  bottomLeftMiddle.style.overflow = "hidden";
+  bottomLeftMiddle.style.alignItems = "center";
+  // Check if the image already exists
+  PPImage.alt = altText;
+  PPImage.title = "Phase plate";
+  PPImage.style.width = "100%";
+  PPImage.style.height = "100%"; 
+  PPImage.style.overflow = "hidden";
+  PPImage.style.objectFit = "contain";
+  PPImage.style.position = "absolute";
+  PPImage.style.top = "0";
+  PPImage.style.left = "0";
+  PPImage.style.zIndex = "1";
+  PPImage.style.transform = "scale("+(myPRScales[0])+")";
+  PPImage.style.filter = "opacity(0.5)";
+
+  bottomLeftMiddle.appendChild(PPImage);
+  PPImage.style.visibility = "hidden";
+  // Code to load the sample
+  console.log("PR loaded!");
 }
 
 function loadView(altText) { // the circle of the ocular that you look through
@@ -150,7 +206,7 @@ function loadView(altText) { // the circle of the ocular that you look through
   viewImage.style.position = "absolute";
   viewImage.style.top = "0";
   viewImage.style.left = "0";
-  viewImage.style.zIndex = "1";
+  viewImage.style.zIndex = "5";
   viewImage.style.transform = "scale(7.2)";
   bottomLeftMiddle.appendChild(viewImage);
   
@@ -209,7 +265,7 @@ function setNegative(){ // view settings for negative feedback
 
 function loadFD(altText) { // field diaphragm
   if (!FDLoaded) {
-    FDF=10;
+    //FDF=10;
     FDImage.alt = altText;
     FDImage.title = "FD";
     
@@ -221,8 +277,8 @@ function loadFD(altText) { // field diaphragm
     FDImage.style.top = "0";
     FDImage.style.left = "0";
     FDImage.style.zIndex = "2";
-    FDImage.style.transform = "translateX("+xoffsetFD+"px) translateY("+yoffsetFD+"px) scale("+AS+")";
-    FDImage.style.filter = "blur(10px)";
+    FDImage.style.transform = "translateX("+xoffsetFD+"px) translateY("+yoffsetFD+"px) scale("+cAS+")";
+    FDImage.style.filter = "blur("+FDF+"px)";
     bottomLeftMiddle.appendChild(FDImage);
     // Code to load the sample
     //FDImage.style.top = '-20'; // Example
@@ -253,8 +309,24 @@ MicImage.addEventListener('click', function(event) { // only checks for clicks, 
   ){ //clicking on the objective
         console.log("Changing objective");
         objectiveChange();
-  } 
+  } else if (
+       (percx < 1425 && percx > 1265 && percy < 2035 && percy > 2000 && MicImage.title == "ZeissLeft.png")||
+        (percx < 1925 && percx > 1870 && percy < 2380 && percy > 2330 && MicImage.title == "ZeissFront.png")||
+        (percx < 2000 && percx > 1870 && percy < 2275 && percy > 2225 && MicImage.title == "ZeissRight.jpg")|| 
+        (percx < 2055 && percx > 1740 && percy < 1730 && percy > 1630 && MicImage.title == "OlympusLeft.png")||
+        (percx < 2090 && percx > 1515 && percy < 2180 && percy > 2130 && MicImage.title == "OlympusFront.png")||
+        (percx < 1620 && percx > 1300 && percy < 2140 && percy > 2030 && MicImage.title == "OlympusRight.png")
+  ) {
+      console.log("Changing phase ring");
+      phaseringChange();
+  }
 });
+
+function phaseringChange(){
+    cPh=cPh+1;
+    cPh=cPh%5;
+    PRImage.style.transform = "scale("+(myPRScales[cPh])+")";
+}
 
 function objectiveChange(){ // loops through magnifications, going back to low after 100x
     console.log(MyIms[0]);
@@ -266,6 +338,7 @@ function objectiveChange(){ // loops through magnifications, going back to low a
     FDImage.style.transform = "translateX("+xoffsetFD+"px) translateY("+yoffsetFD+"px) scale("+cAS+")";
     FDImage.style.transition = "transform 0.25s ease";
     CDImage.style.transform = "scale("+myCDScales[objectiveCount]*CD+")";
+    PPImage.style.transform = "scale("+myPPScales[objectiveCount]+")";
     // added to see if lighting stays constant
     cCD=Math.max(0.8,Math.min(10.0/myCDScales[objectiveCount],CD+(distanceX/100.0))) // make sure the CD diaphragm adjust to objective size
     condInt=(cCD*myCDScales[objectiveCount]-5)/10; 
@@ -273,8 +346,8 @@ function objectiveChange(){ // loops through magnifications, going back to low a
     console.log('cInt '+ IntTF.toFixed(2)+ ' condInt ' +condInt.toFixed(2)+", cCD "+cCD);
     SampleImage.style.filter="contrast("+(0.5+(10-cCD*myCDScales[objectiveCount])/10)+ ") brightness(" +totInt+") blur("+(7-cCD)/20+ "px)";
     console.log('totInt '+ totInt.toFixed(2));
-
     console.log("changed FD");
+    
 }
 
 function getAbsolutTouchPosition(e, MicImage){
@@ -841,80 +914,7 @@ MicImage.addEventListener('mouseup', (e) => { // once dragging is finished, sett
 });//0
 
 function checkStatus(){
-    if (sampleLoaded){ // we need a sample //1
-    //        if (CDImage.style.visibility == "hidden"){// means we can see the sample and not the diaphragm //2 
-            // check Focus
-            //check FDFocus
-            //check cd size
-                if (cFS<0.5 && cFS>-0.5){ //check focus //3
-                    console.log(cFS+" cfs");
-                    if (!sampleFocussed){
-                        setPositive();
-                        toastr.clear();
-                        toastr.success('Congratulations! You have loaded and focussed the sample');
-                        setNegative();
-                        sampleFocussed=true;
-                    }
-                    
-                    if (cFDF<0.5 && cFDF>-0.5){ // check field Diaphragm focus //4
-                        if (!FDFocussed){
-                            setPositive();
-                            toastr.clear();
-                            toastr.success('Congratulations! You have loaded and focussed the sample, and you have focussed the field diafragm');
-                            setNegative();
-                            FDFocussed=true;
-                        }
-                        if (Math.abs(xoffsetFD)<10 &&Math.abs(yoffsetFD)<10){ //5
-                            if (!FDCentered){
-                                setPositive();
-                                toastr.clear();
-                                toastr.success('Congratulations! You have loaded and focussed the sample, and you have focussed and centered the field diafragm');
-                                setNegative();
-                                FDCentered=true;
-                            } 
-                            if (cAS>24.25 &&cAS<26){ //6
-                                if (!FDCorrectSize){//7
-                                    setPositive();
-                                    toastr.clear();
-                                    toastr.success('Congratulations! You have loaded and focussed the sample, and you have focussed and centered the field diafragm, as well as adjusted it to the correct size');
-                                    setNegative();
-                                    FDCorrectSize=true;
-                                }//6
-                                if (cCD*myCDScales[objectiveCount]>5.8 &&cCD*myCDScales[objectiveCount]<7.5 && SampleImage.style.visibility == "visible" && CDImage.style.visibility == "hidden"){ //7 // need to check as well is ocular is in again
-                                    setPositive();
-                                    toastr.clear();
-                                    toastr.success('Congratulations! You have kohlered the microscope');
-                                    setNegative();
-                                } else {
-                                    toastr.info('One more thing to do');
-                                }//6
-                                //console.log(cCD);
-                                //console.log(SampleImage.style.visibility +', '+CDImage.style.visibility)
-                            } else { //5//6
-                                toastr.warning('Field Diaphragm is not the right size');
-                                FDCorrectSize=false;
-                                console.log(cAS);
-                                //console.log(xoffsetFD+", "+yoffsetFD);
-                            } //5
-                        } else { //4//5
-                            toastr.warning('Field Diaphragm is not centered');
-                            FDCentered=false;
-                        } //4
-                    } else { //3//4
-                        toastr.warning('Field Diaphragm is not focussed, please close the field diafragm to focus it');
-                        FDFocussed=false;
-                    } //3
-                } else { //2//3
-                    toastr.warning('Sample is not focussed');
-                    sampleFocussed=false;
-                } //2
-            //console.log()
-    //       } else {//1//2
-            //         toastr.warning('You need a sample for kohlering');
-            //   }//1
-        }  else {//0//1
-            toastr.warning('You need a sample for kohlering');
-        }//0
+    
 }
 
 MicImage.addEventListener('mouseleave', (e)=> { // happens when we leave the image and move the mouse outside the browser window. Stores the values that at that time.
@@ -974,13 +974,9 @@ rotateRight.addEventListener('click', function(){ // loads right view
     rotate('Right')
     },true);
 ZB.addEventListener('click', function(){ // loads zeiss
-    MicChange(3)}, true);
-LB.addEventListener('click', function(){ // loads leica
-    MicChange(0) },true);
-NB.addEventListener('click', function(){ //loads nikon
-    MicChange(1) },true);
+    MicChange(1)}, true);
 OB.addEventListener('click', function(){ // loads olympus
-    MicChange(2)}, true);
+    MicChange(0)}, true);
 ocularButton.addEventListener('click', function(){ // take out or put in ocular
     changeOcular()},true);
 zoomButton.addEventListener('click', function(){ // zoom in on the condensor for more detailed control
@@ -1002,6 +998,8 @@ function changeOcular(){// the actual function that is called to take out or put
         FDImage.style.visibility = "hidden";
         CDImage.style.visibility = "visible";
         ocularButton.textContent='Put back ocular';
+        PRImage.style.visibility = "visible";
+        PPImage.style.visibility = "visible";
     } else {
         if (sampleLoaded){
             SampleImage.style.visibility = "visible";
@@ -1009,6 +1007,8 @@ function changeOcular(){// the actual function that is called to take out or put
         FDImage.style.visibility = "visible";
         CDImage.style.visibility = "hidden";
         ocularButton.textContent='Take out ocular';
+        PRImage.style.visibility = "hidden";
+        PPImage.style.visibility = "hidden";
         checkStatus();
     }
 }
@@ -1036,7 +1036,7 @@ function MicChange(br){ // function to change the microscope brand
     brand=br;
     MyIms=Titles[brand];
     rotate("Left");
-    for (let i=0;i<4;i++){
+    for (let i=0;i<Mbuttons.length;i++){
         if (i==br){
             Mbuttons[i].style.backgroundColor='cyan'
         } else {

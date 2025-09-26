@@ -135,45 +135,48 @@ body, html {
         <div class="top-row">
             <div class="top-row-top">
                 <div class="top-row-left">
-                    <button id="Restart">Restart Assignment</button>
+                    
                 </div>
                 <div class="top-row-middle">
-                    <h1 id="Assignment">Assignment 1</h1>
+                    <h1 id="Assignment">Practical index</h1>
                 </div>
                 <div class="top-row-right">
-                    <a href="Assignment2.html">
-                    <button id="Next">Next Assignment</button>
+                    <a href="Assignment1.html">
+                    <button id="Next">Start Assignments</button>
                     </a>
                 </div>
             </div>
             <div class="top-row-bottom">
-                <div>
-                    <button id="Leica">Leica</button>
-                </div>
-                <div>
-                    <button id="Nikon">Nikon</button>
-                </div>
-                <div>
-                    <button id="Olympus">Olympus</button>
-                </div>
-                <div>
-                    <button id="Zeiss">Zeiss</button>
-                </div>
+                
             </div>
         </div>
         <div class="bottom-row">
             <div class="bottom-left">
                 <div class="bottom-left-top" id="bottom-left-top">
                     <title>Simple Counter</title>
-                    <h1 id="counthead">Click on the microscope part indicated below</h1>
+                    <h1 id="counthead">Welcome to the online microscopy practicals</h1>
                 </div>
                 <div class="bottom-left-middle" id="bottom-left-middle">
-                    <h3 id="question" >What is the name of this part?</h3>
+                    <h3 id="question" >In these practicals we aim to guide you through the basics of microscopy.</h3>
+                    <br><br>
+                    <p>  From identifying buttons on the microscope to kohlering, adjusting phase contrast as well as finding DIC components</p>
+                    <p>  Please select excercises from the buttons below, or click start assignments (right top) to go through them all one by one</p>
+
                 </div>  
                 <div class="bottom-left-bottom" id="bottom-left-bottom">
-                    <button class = "bottombutton" id="rotateLeft">Left view</button>
-                    <button class = "bottombutton" id="rotateFront">Front view</button>
-                    <button class = "bottombutton" id="rotateRight">Right view</button>
+                    <a href="Assignment1.html">
+                    <button class = "bottombutton" id="Leftbutton">Find microscope components</button>
+                    </a>
+                    <a href="Assignment2.html">
+                    <button class = "bottombutton" id="rotateFront">Find conjugated planes</button>
+                    </a>
+                    <a href="Assignment3.html">
+                    <button class = "bottombutton" id="rotateFront">Kohler the microscope</button>
+                    </a>
+                    <a href="Assignment4.html">
+                    <button class = "bottombutton" id="rotateFront">Align phase contrast</button>
+                    </a>
+                    
                 </div>
             </div>
             <div class="bottom-right">
@@ -202,28 +205,6 @@ body, html {
             </div>
         </div>
     </div>
-    <script src="Assignment1.js"></script> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script>
-        toastr.options = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "preventDuplicates": false,
-        "positionClass": "toast-bottom-center", // Change this to modify position
-        "onclick": null,
-        "showDuration": "1000",
-        "hideDuration": "300",
-        "timeOut": "1000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut",
-        }
-    </script>
+    <script src="Assignment0.js"></script> 
 </body>
 </html>
