@@ -25,6 +25,7 @@ jobs:
         run: |
           git config --global user.name "${GIT_AUTHOR_NAME}"
           git config --global user.email "${GIT_AUTHOR_EMAIL}"
+          # changed action petmissions to allow all in github.io
           git remote add external https://x-access-token:${DEPLOY_AS_WEBPAGEV2}@github.com/karivtan/karivtan.github.io.git
           git fetch external
           git checkout -B gh-pages
