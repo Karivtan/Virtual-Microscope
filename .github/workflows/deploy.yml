@@ -1,38 +1,35 @@
 name: Deploy to GitHub Pages
 
-# When should this workflow run?
 on:
   push:
     branches:
-      # Change this to your main development branch (e.g., 'master' or 'main')
-      - main 
+      - main  # or your default branch
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Source Code
+      - name: Checkout source code
         uses: actions/checkout@v4
-        with:
-          # This is necessary for the deploy action to work correctly
-          persist-credentials: false
 
-      # The main deployment action
-      - name: Deploy to GH Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          # This secret holds the Personal Access Token (PAT) from Step 2
-          github_token: ${{ secrets.DEPLOY_AS_WEBPAGEV2 }} #Named keys exactly the same
+      # Build your site here, if needed
+      # - name: Build
+      #   run: npm install && npm run build
 
-          # The location of the files to be deployed.
-          # - Use './' if your static files are in the root of the repo (e.g., plain HTML/CSS/JS).
-          # - Use './dist' or './build' if your previous step creates a production folder.
-          publish_dir: ./ 
-          
-          # The destination repository where the files will be pushed.
-          # MUST be the repository for your GitHub Pages site (e.g., yourusername.github.io)
-          external_repository: karivtan/karivtan.github.io 
-          
-          # Sets the commit author as the GitHub Actions bot
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+      - name: Deploy to external repo
+        env:
+          GIT_AUTHOR_NAME: ${{ github.actor }}
+          GIT_AUTHOR_EMAIL: ${{ github.actor }}@users.noreply.github.com
+          PERSONAL_TOKEN: ${{ secrets.DEPLOY_AS_WEBPAGEV2 }}
+        run: |
+          git config --global user.name "${GIT_AUTHOR_NAME}"
+          git config --global user.email "${GIT_AUTHOR_EMAIL}"
+          git remote add external https://x-access-token:${DEPLOY_AS_WEBPAGEV2}@github.com/karivtan/karivtan.github.io.git
+          git fetch external
+          git checkout -B gh-pages
+          # Copy your built static files to the root if needed, e.g.:
+          # cp -r build/* .
+          git add .
+          git commit -m "Deploy to GitHub Pages" || echo "No changes to commit"
+          git push external gh-pages --force
