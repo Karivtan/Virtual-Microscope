@@ -1,38 +1,22 @@
-name: Deploy to GitHub Pages
-
+name: Deploy Student Preview
 on:
   push:
     branches:
-      - main  # or your default branch
+      - teresa # Change this to your student's branch name
+  workflow_dispatch:  # <--- Add this line!
 permissions:
   contents: write
-  
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
 
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code
+      - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      # Build your site here, if needed
-      # - name: Build
-      #   run: npm install && npm run build
-
-      - name: Deploy to external repo
-        env:
-          GIT_AUTHOR_NAME: ${{ github.actor }}
-          GIT_AUTHOR_EMAIL: ${{ github.actor }}@users.noreply.github.com
-          PERSONAL_TOKEN: ${{ secrets.DEPLOY_AS_WEBPAGEV2 }}
-        run: |
-          git config --global user.name "${GIT_AUTHOR_NAME}"
-          git config --global user.email "${GIT_AUTHOR_EMAIL}"
-          # starting from blank project
-          git remote add external https://x-access-token:${DEPLOY_AS_WEBPAGEV2}@github.com/karivtan/karivtan.github.io.git
-          git fetch external
-          git checkout -B gh-pages
-          # Copy your built static files to the root if needed, e.g.:
-          # cp -r build/* .
-          git add .
-          git commit -m "Deploy to GitHub Pages" || echo "No changes to commit"
-          git push external gh-pages --force
+      - name: Deploy to Subfolder 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: . # The folder she is working in (usually the root)
+          target-folder: preview # The subfolder name for her site
+          branch: gh-pages # This should match your deployment branch
