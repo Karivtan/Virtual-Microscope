@@ -4,6 +4,10 @@
 1. insight into Ph rings and objective correlation
 2. insight into condensor diaphragm with PH rings
 3. phase ring alignment?
+4. Solve intensity issue
+5. Remove sample button is wrong upon loading
+6. add zeiss phase annulus image for aligning
+7. add Bh2 condensor image for aliging
 
 */
 

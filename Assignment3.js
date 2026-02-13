@@ -3,6 +3,7 @@
 #TODO more realistig condensor effects and link between condensor and image, 
     check all button positions
     toastr checklist in green appearing indefinitely on the right top?
+    Check intensity settings
 
 */
 
