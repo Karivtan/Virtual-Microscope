@@ -1,13 +1,14 @@
 /*
 #TODO more samples
 # What do we want to achieve
-1. insight into Ph rings and objective correlation
-2. insight into condensor diaphragm with PH rings
+Resolved 1. insight into Ph rings and objective correlation
+2. insight into condensor diaphragm with PH rings, change sample images on correct and incorrect input
 3. phase ring alignment?
-4. Solve intensity issue
-5. Remove sample button is wrong upon loading
+Resolved 4. Solve intensity issue
+Resolved 5. Remove sample button is wrong upon loading
 6. add zeiss phase annulus image for aligning
 7. add Bh2 condensor image for aliging
+8. Change sample response
 
 */
 
@@ -73,7 +74,7 @@ PPImage.id = "PP";
 let sampleContainer = null;
 
 // all number variables
-let distanceY=0, distanceX=0, mouseDownY=0, mouseDownX=0, AS=25, cAS=25, FDF=0, IntTF=1, cIntTF=1, FS=0, cFS=FS, rot=10, crot=rot, SampleImageDisplaceX=0; SampleImageDisplaceY=0;;
+let distanceY=0, distanceX=0, mouseDownY=0, mouseDownX=0, AS=25, cAS=25, FDF=0, IntTF=1, cIntTF=0.9, FS=0, cFS=FS, rot=10, crot=rot, SampleImageDisplaceX=0; SampleImageDisplaceY=0;;
 let cCD=1, CD=1, brandnr=Math.floor(Math.random()*2), cFDF=0, cyoffsetFD=0, cxoffsetFD=0, yoffsetFD=0, xoffsetFD=0, objectiveCount =0, cCont=1, cont=1;
 let assignmentNumber = 0, condInt=1.0, totInt=1.0; let cPh=0;
 
@@ -749,9 +750,9 @@ document.addEventListener('touchmove', (e) =>  {
         
   } else if (IntDrag){
     //console.log("Intensity drag");
-    
+    condInt=(cCD*myCDScales[objectiveCount]-5)/10;
     cIntTF=IntTF+(distanceY/50);
-    totInt=IntTF+condInt;
+    totInt=cIntTF+condInt;
     console.log("totInt "+totInt);
     SampleImage.style.filter = "brightness("+totInt+")";
   } 
@@ -807,9 +808,9 @@ document.addEventListener('mousemove', (e) => { // depending on where the image 
         
   } else if (IntDrag){
     //console.log("Intensity drag");
-    
+    condInt=(cCD*myCDScales[objectiveCount]-5)/10;
     cIntTF=IntTF+(distanceY/50);
-    totInt=IntTF+condInt;
+    totInt=cIntTF+condInt;
     console.log("totInt "+totInt);
     SampleImage.style.filter = "brightness("+totInt+")";
   } 
