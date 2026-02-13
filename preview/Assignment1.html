@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<title>Microscopy practical</title>
+
+<style>
+body, html {
+  height: 100%; /* Ensure body and html take full browser height */
+  margin: 0;   /* Remove default margins */
+  text-align: center;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 15% 85%; /* 15% top, 85% bottom */
+  height: 100%;
+  width:100%
+}
+.top-row {
+  display: grid;
+  grid-template-rows: 70% 30%; /* top row split in two */
+}
+
+.bottom-row { /*bottom row contains bottom left, and bottom right */
+    height: 100%;
+    display: grid;
+    grid-template-columns:50% 50%;
+}
+
+.top-row-top {
+  grid-column: 1 / 3; /* Span across both columns */
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr; /* Three equal columns */
+  flex-direction: row; /* Stack items vertically */
+  background-color: #001158; /* Example styling */
+  color:white;
+  justify-content: center;
+  align-items: center;
+}
+.top-row-bottom {
+  grid-column: 1 / 3; /* Span across both columns */
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* Three equal columns */
+  background-color: #001158; /* Example styling */
+  color:white;
+  display: flex; /* Center content if needed */
+  justify-content: center;
+  align-items: center;
+}
+.top-row-left {
+  background-color: rgb(0, 17, 88); /* Example styling */
+}
+.top-row-right {
+  background-color: rgb(0, 17, 88); /* Example styling */
+}
+.top-row-middle {
+  background-color: rgb(0, 17, 88); /* Example styling */
+}
+
+.bottom-left {
+  display: grid;
+  grid-template-rows: 10% 60% 30%;
+  flex-direction: column; /* Stack items vertically */
+  background-color: lightblue; /* Example styling */
+}
+
+.bottom-left-top {
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  background-color: rgb(209, 218, 255);
+  justify-content: center;
+    
+}
+
+.bottom-left-middle {
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  justify-content: center;
+  position: relative;
+    
+}
+
+.bottom-left-bottom {
+      background-color: rgb(133, 146, 188);
+    /*display: flex; /* Center content if needed */
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom-right {
+    display:grid;
+    height:100%
+    background-color: rgb(255, 255, 255); /* Example styling */
+    justify-items: center;
+    align-items: center;
+    overflow:hidden;
+}
+
+#Assignment {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color:white
+}
+
+#counter {
+    font-size: 2em;
+    margin-bottom: 50px;
+
+}
+
+#counthead {
+    font-size: 2em;
+    margin-bottom: 50px;
+    align-self: flex-start;
+}
+#question {
+    font-size: 2em;
+    margin-bottom: 50px;
+    align-self: flex-start;
+    white-space: pre-wrap; /* Important for \n to work */
+}
+
+#bottombutton{
+
+}
+#explanation{
+  grid-column: 1 / 4; /* Span from column 1 to 4 (i.e., across 3 columns) */
+  white-space: pre-wrap; /* Important for \n to work */
+}
+
+</style>
+<body>
+    <div class="container">
+        <div class="top-row">
+            <div class="top-row-top">
+                <div class="top-row-left">
+                    <button id="Restart">Restart Assignment</button>
+                </div>
+                <div class="top-row-middle">
+                    <h1 id="Assignment">Assignment 1</h1>
+                </div>
+                <div class="top-row-right">
+                    <a href="Assignment2.html">
+                    <button id="Next">Next Assignment</button>
+                    </a>
+                </div>
+            </div>
+            <div class="top-row-bottom">
+                <div>
+                    <button id="Leica">Leica</button>
+                </div>
+                <div>
+                    <button id="Nikon">Nikon</button>
+                </div>
+                <div>
+                    <button id="Olympus">Olympus</button>
+                </div>
+                <div>
+                    <button id="Zeiss">Zeiss</button>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-row">
+            <div class="bottom-left">
+                <div class="bottom-left-top" id="bottom-left-top">
+                    <title>Simple Counter</title>
+                    <h1 id="counthead">Click on the microscope part indicated below</h1>
+                </div>
+                <div class="bottom-left-middle" id="bottom-left-middle">
+                    <h3 id="question" >What is the name of this part?</h3>
+                </div>  
+                <div class="bottom-left-bottom" id="bottom-left-bottom">
+                    <button class = "bottombutton" id="rotateLeft">Left view</button>
+                    <button class = "bottombutton" id="rotateFront">Front view</button>
+                    <button class = "bottombutton" id="rotateRight">Right view</button>
+                </div>
+            </div>
+            <div class="bottom-right">
+                <title>Microscope</title>
+                <style>
+        
+                    img {
+                      height: 100%;     /* Prevent image from overflowing */
+                      width: 100%;      /* Prevent image from overflowing */
+                      object-fit:contain;
+                      max-width:100%;
+                      max-height:100%;
+                      overflow:hidden;
+                    }
+                    /*
+                    img {
+                        /* Prevent image from overflowing 
+                        grid-column: 1 / span 3; /* Spans all 3 columns 
+                        grid-row: 1 / span 2;    /* Spans both rows 
+                        object-fit:contain;
+                        /*width:50%;
+                    }*/
+
+                </style>
+                <img id="Microscope" src="fotos/ZeissRight.jpg" alt="Microscope" title="ZeissRight.jpg"></img>
+            </div>
+        </div>
+    </div>
+    <script src="Assignment1.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "preventDuplicates": false,
+        "positionClass": "toast-bottom-center", // Change this to modify position
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "300",
+        "timeOut": "1000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut",
+        }
+    </script>
+</body>
+</html>
