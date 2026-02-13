@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - teresa # Change this to your student's branch name
-
+  workflow_dispatch:  # <--- Add this line!
 permissions:
   contents: write
 
