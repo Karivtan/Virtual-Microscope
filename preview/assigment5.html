@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <title>Microscopy practical</title>
@@ -110,7 +111,7 @@ body, html {
 
 .bottom-right {
     display:grid;
-    height:100%
+    height:100%;
     background-color: rgb(255, 255, 255); /* Example styling */
     justify-items: center;
     align-items: center;
@@ -141,6 +142,13 @@ body, html {
     align-self: flex-start;
     white-space: pre-wrap; /* Important for \n to work */
 }
+#instruction {
+    font-size: 2em;
+    margin-bottom: 50px;
+    align-self: flex-start;
+    white-space: pre-wrap; /* Important for \n to work */
+}
+
 
 #bottombutton{
     
@@ -161,100 +169,104 @@ body, html {
         <div class="top-row">
             <div class="top-row-top">
                 <div class="top-row-left">
-                    <a href="Assignment3.html">
+                    <a href="Assignment4.html">
                     <button id="Previous">Previous Assignment</button>
                     </a>
                 </div>
                 <div class="top-row-middle">
-                    <h1 id="Assignment">Assignment 4</h1>
+                    <h1 id="Assignment">Assignment 5 </h1>
                 </div>
                 <div class="top-row-right">
-                    <a href="assigment5.html">
+                    <a href="Assigment6.html">
                     <button id="Next">Next Assignment</button>
                     </a>
                 </div>
             </div>
-            <div class="top-row-bottom">
-                <div>
-                    <button id="Olympus">Olympus</button>
-                </div>
-                <div>
-                    <button id="Zeiss">Zeiss</button>
-                </div>
-            </div>
-        </div>
-        <div class="bottom-row">
+            <style>
+              /* Esto controla la fila donde están los botones y la foto */
+              .bottom-row {
+                  display: flex;         /* Pone los botones a la izquierda y la foto a la derecha */
+                  height: 85vh;          /* Limita la altura total al 80% de la pantalla */
+                  width: 100%;
+                  gap: 0px;             /* Espacio entre botones y foto */
+                  align-items: stretch;  /* Hace que ambas columnas tengan la misma altura */
+              }
+          
+              .bottom-left {
+                  flex: 1;
+                  padding: 40px;               /* Toma un 40% del espacio aprox */
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+              }
+          
+              .bottom-right {
+                  flex: 1;               /* Le da más espacio a la foto (60%) */
+                  background-color: #f8f9fa; /* Fondo gris claro para resaltar el diagrama */
+                  border: 2px solid #ddd;
+                  border-radius: 2px;
+                  overflow: hidden;      /* Evita que la foto se salga */
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+              }
+          
+              #Microscope {
+                  max-width: 90%;        /* Deja un pequeño margen interno */
+                  max-height: 90%;
+                  object-fit: contain;   /* Mantiene la proporción sin deformar */
+                }
+                .bottombutton {
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        font-size: 1.1rem;
+        cursor: pointer;
+    }      
+          </style>
+          
+          <div class="bottom-row">
             <div class="bottom-left">
                 <div class="bottom-left-top" id="bottom-left-top">
-                    <title>Simple Counter</title>
-                    <h1 id="counthead">Click on the microscope part indicated below</h1>
+                    <h1 id="AssignmentInfo">Phase Contrast Identification</h1>
                 </div>
                 <div class="bottom-left-middle" id="bottom-left-middle">
-                    <h3 id="question" >What is the name of this part?</h3>
-                </div>  
+                    <h3 id="instruction">Identify the correct optical component on the diagram.</h3>
+                    <h1 id="question" style="font-size: 3em; color: #001158; margin-top: 20px;">Loading...</h1>
+                </div> 
                 <div class="bottom-left-bottom" id="bottom-left-bottom">
-                
-                            <p class = "explanation" id="explanation" >To kohler the microscope use the controls on the microscope.</p>
-                    <button class = "bottombutton" id="zoomButton">Zoom in on condensor</button>
-                    <button class = "loadbutton" id="loadButton">Load Sample</button>
-                    <button class = "ocularbutton" id="ocularButton">Take out ocular</button>
-                    <button class = "bottombutton" id="rotateLeft">Left view</button>
-                    <button class = "bottombutton" id="rotateFront">Front view</button>
-                    <button class = "bottombutton" id="rotateRight">Right view</button>
-
+                    <h1 class="explanation" id="explanation">Study the path and click the target.</h1>
                 </div>
             </div>
-            <div id="micIm" class="bottom-right">
-                <title>Microscope</title>
-                <style>
-        
-                    img {
-                      height: 100%;     /* Prevent image from overflowing */
-                      width: 100%;      /* Prevent image from overflowing */
-                      object-fit:contain;
-                      max-width:100%;
-                      max-height:100%;
-                      overflow:hidden;
-                      
-                    }
-                    /*
-                    img {
-                        /* Prevent image from overflowing 
-                        grid-column: 1 / span 3; /* Spans all 3 columns 
-                        grid-row: 1 / span 2;    /* Spans both rows 
-                        object-fit:contain;
-                        /*width:50%;
-                    }*/
-
-                </style>
-                <img id="Microscope" src="fotos/ZeissRight.jpg" alt="Microscope" title="ZeissRight.jpg"></img>
+          
+              <div id="micIm" class="bottom-right">
+                  <img id="Microscope" 
+                       src="fotos/photoscope1.png" 
+                       alt="Phase Contrast Optical Path">
+              </div>
             </div>
-        </div>
-    </div>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script>
-        toastr.options = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "preventDuplicates": true,
-        "positionClass": "toast-bottom-right", // Change this to modify position
-        "onclick": null,
-        "showDuration": "1000",
-        "hideDuration": "300",
-        "timeOut": "2000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut",
-        }
-    </script>
-    <script src="Assignment4.js"></script> 
-</body>
-   
-</html>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+              
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+          
+              <script>
+                  // Toastr Configuration
+                  toastr.options = {
+                      "closeButton": false,
+                      "debug": false,
+                      "newestOnTop": false,
+                      "progressBar": true, // Added a progress bar so you can see it working
+                      "preventDuplicates": true,
+                      "positionClass": "toast-top-right", // Changed to top-right so it's easier to see
+                      "timeOut": "2000",
+                      "extendedTimeOut": "1000",
+                      "showMethod": "fadeIn",
+                      "hideMethod": "fadeOut"
+                  }
+              </script>
+          
+              <script src="assigment5.js"></script> 
+          </body>
+          </html>

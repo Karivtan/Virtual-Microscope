@@ -1,14 +1,9 @@
 /*
 #TODO more samples
 # What do we want to achieve
-Resolved 1. insight into Ph rings and objective correlation
-2. insight into condensor diaphragm with PH rings, change sample images on correct and incorrect input
+1. insight into Ph rings and objective correlation
+2. insight into condensor diaphragm with PH rings
 3. phase ring alignment?
-Resolved 4. Solve intensity issue
-Resolved 5. Remove sample button is wrong upon loading
-6. add zeiss phase annulus image for aligning
-7. add Bh2 condensor image for aliging
-8. Change sample response
 
 */
 
@@ -39,7 +34,7 @@ const micHTML = document.getElementById('micIm');
 const myObjectives =[10,20,40,100];
 const myMagnifications = [1,2,4,10];
 const myCDScales = [6,3.5,2,1.25];
-const myPRScales=[0,2,4,8,14];
+const myPRScales=[0,1,2,4,7];
 const myPPScales=[1,2,2,4];
 const OlympusTitles =["OlympusLeft.png","OlympusFront.png","OlympusRight.png"];
 const ZeissTitles =["ZeissLeft.png","ZeissFront.png","ZeissRight.jpg" ];
@@ -74,13 +69,13 @@ PPImage.id = "PP";
 let sampleContainer = null;
 
 // all number variables
-let distanceY=0, distanceX=0, mouseDownY=0, mouseDownX=0, AS=25, cAS=25, FDF=0, IntTF=1, cIntTF=0.9, FS=0, cFS=FS, rot=10, crot=rot, SampleImageDisplaceX=0; SampleImageDisplaceY=0;;
-let cCD=1, CD=1, brandnr=Math.floor(Math.random()*2), cFDF=0, cyoffsetFD=0, cxoffsetFD=0, yoffsetFD=0, xoffsetFD=0, objectiveCount =0, cCont=1, cont=1, cyoffsetPR=0, cxoffsetPR=0, yoffsetPR=Math.random()*100-50, xoffsetPR=Math.random()*100-50;
+let distanceY=0, distanceX=0, mouseDownY=0, mouseDownX=0, AS=25, cAS=25, FDF=0, IntTF=1, cIntTF=1, FS=0, cFS=FS, rot=10, crot=rot, SampleImageDisplaceX=0; SampleImageDisplaceY=0;;
+let cCD=1, CD=1, brandnr=Math.floor(Math.random()*2), cFDF=0, cyoffsetFD=0, cxoffsetFD=0, yoffsetFD=0, xoffsetFD=0, objectiveCount =0, cCont=1, cont=1;
 let assignmentNumber = 0, condInt=1.0, totInt=1.0; let cPh=0;
 
 // all booleans
 let CDcentre=false, IntDrag=false, CondCenter=false, buttonclick =false, FDLoaded = false, FDcentre = false, FDcentreR =false, DFDragging = false, Focus = false, FDFocus = false, sampleDragging = false;
-let sampleLoaded=true, sampleFocussed = false, FDFocussed=false, FDCentered=false, FDCorrectSize=false,condensorCorrectSize=false, condSizeDrag = false, PRcentreL=false, PRcentreR=false;
+let sampleLoaded=true, sampleFocussed = false, FDFocussed=false, FDCentered=false, FDCorrectSize=false,condensorCorrectSize=false, condSizeDrag = false;
 
 // all strings
 let brand=MicBrand[brandnr], Titles=[OlympusTitles,ZeissTitles], MyIms=Titles[brandnr], cTitle=MyIms[0];
@@ -292,7 +287,7 @@ function loadFD(altText) { // field diaphragm
     FDLoaded = true;
     }
 }
-// TODO add touchevent
+
 MicImage.addEventListener('click', function(event) { // only checks for clicks, which only have an effect on objective magnification
   let coords = getAbsolutClickPosition(event, MicImage);
   percx=coords.percx;
@@ -330,8 +325,7 @@ MicImage.addEventListener('click', function(event) { // only checks for clicks, 
 function phaseringChange(){
     cPh=cPh+1;
     cPh=cPh%5;
-    PRImage.style.transform = "translateX("+(xoffsetPR)+"px) translateY("+(yoffsetPR)+"px) scale("+(myPRScales[cPh])+")";
-    
+    PRImage.style.transform = "scale("+(myPRScales[cPh])+")";
 }
 
 function objectiveChange(){ // loops through magnifications, going back to low after 100x
@@ -562,18 +556,6 @@ MicImage.addEventListener('touchstart', function(event){  // equal to mousedown
     ){ //The condensor diaphragm knobs are clicked
         console.log("changing condensor diaphragm")
          CDcentre = true;
-    } else if (
-        (percx < 1425 && percx > 1265 && percy < 2035 && percy > 2000 && MicImage.title == "ZeissLeft.png")||
-         (percx < 1305 && percx > 1170 && percy < 1720 && percy > 1620 && MicImage.title == "OlympusLeft.png")
-    ){
-        console.log("changing phase ring position ")
-         PRcentreL = true;
-    } else if (
-        (percx < 2000 && percx > 1870 && percy < 2275 && percy > 2225 && MicImage.title == "ZeissRight.jpg")|| 
-         (percx < 2310 && percx > 2125 && percy < 2180 && percy > 2060 && MicImage.title == "OlympusRight.png")//
-    ){
-        console.log("changing phase ring position ")
-         PRcentreR = true;
     }
     //console.log(`Image was mousedowned! at x=${percx.toFixed(1)}, y= ${percy.toFixed(1)}, focus =${Focus}, ${DFDragging} , ${FDFocus}, ${IntDrag}`) ;
 });
@@ -707,18 +689,6 @@ MicImage.addEventListener('mousedown', function(event) { // check all the possib
     ){ //The condensor diaphragm knobs are clicked
         console.log("changing condensor diaphragm")
          CDcentre = true;
-    } else if (
-        (percx < 1425 && percx > 1265 && percy < 2035 && percy > 2000 && MicImage.title == "ZeissLeft.png")||
-         (percx < 1305 && percx > 1170 && percy < 1720 && percy > 1620 && MicImage.title == "OlympusLeft.png")
-    ){
-        console.log("changing phase ring position ")
-         PRcentreL = true;
-    } else if (
-        (percx < 2000 && percx > 1870 && percy < 2275 && percy > 2225 && MicImage.title == "ZeissRight.jpg")|| 
-         (percx < 2310 && percx > 2125 && percy < 2180 && percy > 2060 && MicImage.title == "OlympusRight.png")//
-    ){
-        console.log("changing phase ring position ")
-         PRcentreR = true;
     }
     //console.log(`Image was mousedowned! at x=${percx.toFixed(1)}, y= ${percy.toFixed(1)}, focus =${Focus}, ${DFDragging} , ${FDFocus}, ${IntDrag}`) ;
 });
@@ -775,17 +745,12 @@ document.addEventListener('touchmove', (e) =>  {
         
   } else if (IntDrag){
     //console.log("Intensity drag");
-    condInt=(cCD*myCDScales[objectiveCount]-5)/10;
+    
     cIntTF=IntTF+(distanceY/50);
-    totInt=cIntTF+condInt;
+    totInt=IntTF+condInt;
     console.log("totInt "+totInt);
     SampleImage.style.filter = "brightness("+totInt+")";
-  } else if (PRcentreL){
-      PRImage.style.transform = "translateX("+(xoffsetPR+distanceX)+"px) translateY("+(yoffsetPR-distanceX)+"px) scale("+(myPRScales[cPh])+")";
-  } else if (PRcentreR){
-      PRImage.style.transform = "translateX("+(xoffsetPR+distanceX)+"px) translateY("+(yoffsetPR+distanceX)+"px) scale("+(myPRScales[cPh])+")";
-
-  }
+  } 
 });
 
 document.addEventListener('mousemove', (e) => { // depending on where the image was mousedowned will act on what was clicked and what the dragging means for that component
@@ -838,17 +803,12 @@ document.addEventListener('mousemove', (e) => { // depending on where the image 
         
   } else if (IntDrag){
     //console.log("Intensity drag");
-    condInt=(cCD*myCDScales[objectiveCount]-5)/10;
+    
     cIntTF=IntTF+(distanceY/50);
-    totInt=cIntTF+condInt;
+    totInt=IntTF+condInt;
     console.log("totInt "+totInt);
     SampleImage.style.filter = "brightness("+totInt+")";
-  } else if (PRcentreL){
-      PRImage.style.transform = "translateX("+(xoffsetPR+distanceX)+"px) translateY("+(yoffsetPR-distanceX)+"px) scale("+(myPRScales[cPh])+")";
-  } else if (PRcentreR){
-      PRImage.style.transform = "translateX("+(xoffsetPR+distanceX)+"px) translateY("+(yoffsetPR+distanceX)+"px) scale("+(myPRScales[cPh])+")";
-
-  }
+  } 
 });
 
 MicImage.addEventListener('touchend', (e) => {
@@ -884,17 +844,6 @@ MicImage.addEventListener('touchend', (e) => {
         //console.log("pos "+xoffsetFD+", "+yoffsetFD );
     }  
     FDcentreR = false;
-
-    if (PRcentreL){
-        xoffsetPR=distanceX+xoffsetPR;
-        yoffsetPR=yoffsetPR-distanceX;
-    }
-    PRcentreL=false;
-    if (PRcentreR){
-        xoffsetPR=distanceX+xoffsetPR;
-        yoffsetPR=yoffsetPR+distanceX;
-    }
-    PRcentreR=false;
 
     if (CDcentre){
     CD=cCD;
@@ -946,17 +895,6 @@ MicImage.addEventListener('mouseup', (e) => { // once dragging is finished, sett
         //console.log("pos "+xoffsetFD+", "+yoffsetFD );
     }  
     FDcentreR = false;
-    if (PRcentreL){
-        xoffsetPR=distanceX+xoffsetPR;
-        yoffsetPR=yoffsetPR-distanceX;
-    }
-    PRcentreL=false;
-    if (PRcentreR){
-        xoffsetPR=distanceX+xoffsetPR;
-        yoffsetPR=yoffsetPR+distanceX;
-    }
-    PRcentreR=false;
-
 
     if (CDcentre){
     CD=cCD;
@@ -1011,16 +949,7 @@ MicImage.addEventListener('mouseleave', (e)=> { // happens when we leave the ima
         //console.log("pos "+xoffsetFD+", "+yoffsetFD );
     }  
     FDcentreR = false;
-    if (PRcentreL){
-        xoffsetPR=distanceX+xoffsetPR;
-        yoffsetPR=yoffsetPR-distanceX;
-    }
-    PRcentreL=false;
-    if (PRcentreR){
-        xoffsetPR=distanceX+xoffsetPR;
-        yoffsetPR=yoffsetPR+distanceX;
-    }
-    PRcentreR=false;
+
     if (CDcentre){
     CD=cCD;
     IntTF=cIntTF;
