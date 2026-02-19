@@ -1,10 +1,10 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy main to Pages
 
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches: -main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,20 +24,26 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+#    environment:
+#    name: github-pages
+#    url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
+ 
+      
+ #     - name: Setup Pages
+ #       uses: actions/configure-pages@v5
+ #     - name: Upload artifact
+ #       uses: actions/upload-pages-artifact@v3
+ #       with:
+ #         # Upload entire repository
+ #         path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4 #not used anymore actions/deploy-pages@v4
+        with:
+          folder: .
+          branch: gh-pages
+          clean: false # IMPORTANT: Set to false so it doesn't delete the /preview folder
