@@ -22,3 +22,4 @@ jobs:
           folder: . # The folder she is working in (usually the root)
           target-folder: preview # The subfolder name for her site
           branch: gh-pages # This should match your deployment branch
+          clean: false
