@@ -65,7 +65,7 @@ let zoomC=false;
 let sampleContainer = null;
 
 // all number variables
-let distanceY=0, distanceX=0, mouseDownY=0, mouseDownX=0, AS=15, cAS=15, FDF=0, IntTF=1, cIntTF=1, FS=Math.random()*20-10, cFS=FS, rot=10, crot=rot, SampleImageDisplaceX=0; SampleImageDisplaceY=0;;
+let distanceY=0, distanceX=0, mouseDownY=0, mouseDownX=0, AS=15, cAS=15, FDF=0, IntTF=1, cIntTF=0.9, FS=Math.random()*20-10, cFS=FS, rot=10, crot=rot, SampleImageDisplaceX=0; SampleImageDisplaceY=0;;
 let cCD=0.8, CD=0.8, brandnr=Math.floor(Math.random()*4), cFDF=0, cyoffsetFD=0, cxoffsetFD=0, yoffsetFD=Math.random()*100-50, xoffsetFD=Math.random()*100-50, objectiveCount =0, cCont=1, cont=1;
 let assignmentNumber = 0, condInt=1.0, totInt=1.0;
 
@@ -672,9 +672,9 @@ document.addEventListener('touchmove', (e) =>  {
         
   } else if (IntDrag){
     //console.log("Intensity drag");
-    
+    condInt=(cCD*myCDScales[objectiveCount]-5)/10; 
     cIntTF=IntTF+(distanceY/50);
-    totInt=IntTF+condInt;
+    totInt=cIntTF+condInt;
     console.log("totInt "+totInt);
     SampleImage.style.filter = "brightness("+totInt+")";
   } 
@@ -730,9 +730,9 @@ document.addEventListener('mousemove', (e) => { // depending on where the image 
         
   } else if (IntDrag){
     //console.log("Intensity drag");
-    
+    condInt=(cCD*myCDScales[objectiveCount]-5)/10; 
     cIntTF=IntTF+(distanceY/50);
-    totInt=IntTF+condInt;
+    totInt=cIntTF+condInt;
     console.log("totInt "+totInt);
     SampleImage.style.filter = "brightness("+totInt+")";
   } 

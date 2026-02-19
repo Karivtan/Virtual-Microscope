@@ -47,7 +47,7 @@ function updateQuestion(Planes){
     console.log(Planes[nPlanes[cPlane]]);
     question.textContent=(Planes[nPlanes[cPlane]]);
     cSelection=(Planes[nPlanes[cPlane]])
-    nPlanes.splice(cPlane,1);
+    nPlanes.splice(cPlane,1); //removes the just clicked option from the list
 
 }
 
