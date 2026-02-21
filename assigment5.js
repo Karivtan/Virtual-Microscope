@@ -57,7 +57,7 @@ microscope.addEventListener('click', function(event) {
         // --- AQUÍ ESTÁ EL MENSAJE DE SUCCESS CADA VEZ QUE ACERTAN ---
         toastr.success("Success! Correct location.", "Correct!");
         
-        // Esperamos un segundo para que vean el mensaje antes de cambiar de pregunta
+        
         setTimeout(() => {
             updateQuestion();
         }, 1000);
