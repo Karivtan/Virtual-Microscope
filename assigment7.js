@@ -58,7 +58,7 @@ function initGame() {
 }
 
 function updateUI() {
-    // ESTA LÍNEA ES VITAL: Define qué paso estamos cargando
+    //  paso QUE estamos cargando
     if (currentStep < steps.length) {
         const step = steps[currentStep]; 
 
@@ -78,7 +78,7 @@ function updateUI() {
                 console.log("Applying zoom:", step.zoom);
                 microscope.style.transform = step.zoom;
             } else {
-                // Si el paso no tiene zoom (como los primeros), reseteamos
+                // Si el paso no tiene zoom , reseteamos
                 microscope.style.transform = "scale(1) translate(0, 0)";
             }
         }, 100);

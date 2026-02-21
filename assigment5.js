@@ -54,7 +54,7 @@ microscope.addEventListener('click', function(event) {
     }
 
     if (isCorrect) {
-        // --- AQUÍ ESTÁ EL MENSAJE DE SUCCESS CADA VEZ QUE ACERTAN ---
+        // --- AQUÍ ESTÁ EL MENSAJE DE SUCCESS CADA VEZ QUE ACIERTAN ---
         toastr.success("Success! Correct location.", "Correct!");
         
         
