@@ -16,27 +16,28 @@ const steps = [
         pregunta: "Find the: Fluorescence Filter Cube",
         instruccion: "Locate the external compartment on the main body.",
         explicacion: "The cube contains the dichroic mirror and filters.",
-        imagen: "fotos/PHOTO FRONT OF ZEISS.JPG", // Full microscope
-        xmin: 1580, xmax: 1690, 
-        ymin: 2090, ymax: 2200 
+        imagen: "fotos/photofrontzeiss.png", // Full microscope
+        xmin: 400, xmax: 480, 
+        ymin: 600, ymax: 680 
     },
     {
         id: "objectives",
         pregunta: "Find the: Objectives",
         instruccion: "The cover is now removed. Locate the objective lenses.",
         explicacion: "Objectives collect light from the specimen.",
-        imagen: "fotos/PHOTOSINTAPA.JPG", // Inside view
-        xmin: 1640, xmax: 1760, 
-        ymin: 1910, ymax: 2020
+        imagen: "fotos/photosintapa.jpg", // Inside view
+        xmin: 450, xmax: 510, 
+        ymin: 580, ymax: 650
     },
     {
         id: "nomarski",
         pregunta: "Find the: Nomarski Prism (DIC)",
         instruccion: "Identify the prism slider above the objectives.",
         explicacion: "The prism recombines the sheared light beams.",
-        imagen: "fotos/PHOTOSINTAPA.JPG", // Zoom view
+        imagen: "fotos/photosintapa.jpg", // Zoom view
         zoom: "scale(2.8) translate(0px, -80px)",
-        xmin: 1800, xmax: 1910, ymin: 1880, ymax: 1990
+        xmin: 490, xmax: 550, 
+        ymin: 530, ymax: 600
     },
     {
         id: "final_prism_view",
