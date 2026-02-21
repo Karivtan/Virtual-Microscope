@@ -56,9 +56,9 @@ function update() {
     // Reset de efectos
     sampleImg.style.transform = "scale(1)";
 
-    // --- LOGICA DE SELECCIÓN DE MUESTRAS ---
+    // --- SELECCIÓN DE MUESTRAS ---
 
-    // 1. BRIGHTFIELD (Muestra diferente para cada objetivo)
+    // 1. BRIGHTFIELD 
     if (currentDC === 0) {
         isCorrect = true;
         if (currentObj === 0) selectedSample = "samples/CheekEpithelialCellsBF10x-3033.czi.png";
@@ -96,7 +96,7 @@ function update() {
         selectedSample = "samples/cheekephitelialcellsPC100x-01.czi.png";
     }
 
-    // --- APLICAR CAMBIOS ---
+    // --- CAMBIOS ---
     if (isCorrect) {
         sampleImg.src = selectedSample; 
         sampleImg.classList.remove('blurry');
