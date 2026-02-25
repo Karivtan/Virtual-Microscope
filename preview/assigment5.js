@@ -1,4 +1,4 @@
-console.log("Assignment 5: Phase Contrast - Random Mode Active");
+console.log("Assignment 5: Phase Contrast ");
 
 const question = document.getElementById('question');
 const microscope = document.getElementById('Microscope');
@@ -9,8 +9,8 @@ let nPlanes = [], Planes = [];
 
 // Inicia el juego automáticamente al azar
 function initRandomGame() {
-    const allTargets = ["Condenser Annulus", "Phase Plate (Objective)", "Specimen Plate"];
-    assignmentText.textContent = "Task: Full Phase Contrast Path (Random Mode)";
+    const allTargets = ["phase ring", "Phase Plate", "Specimen"];
+    assignmentText.textContent = "Task: Full Phase Contrast Path ";
     loadQuestion(allTargets);
 }
 
@@ -43,21 +43,21 @@ microscope.addEventListener('click', function(event) {
 
     let isCorrect = false;
 
-    if (cSelection === "Condenser Annulus") {
+    if (cSelection === "phase ring") {
         if (percx > 350 && percx < 460 && percy > 830 && percy < 930) isCorrect = true;
     } 
-    else if (cSelection === "Phase Plate (Objective)") {
+    else if (cSelection === "Phase Plate") {
         if (percx > 370 && percx < 470 && percy > 640 && percy < 740) isCorrect = true;
     } 
-    else if (cSelection === "Specimen Plate") {
+    else if (cSelection === "Specimen") {
         if (percx > 320 && percx < 460 && percy > 720 && percy < 830) isCorrect = true;
     }
 
     if (isCorrect) {
-        // --- AQUÍ ESTÁ EL MENSAJE DE SUCCESS CADA VEZ QUE ACERTAN ---
+        // --- AQUÍ ESTÁ EL MENSAJE DE SUCCESS CADA VEZ QUE ACIERTAN ---
         toastr.success("Success! Correct location.", "Correct!");
         
-        // Esperamos un segundo para que vean el mensaje antes de cambiar de pregunta
+        
         setTimeout(() => {
             updateQuestion();
         }, 1000);

@@ -1,4 +1,3 @@
-// 1. DATA CONFIGURATION
 const lab = {
     folder: "fotos/",
     objectives: [
@@ -9,10 +8,10 @@ const lab = {
     ],
     dc_settings: [
         "fotos/BF.JPG",    // Index 0: Brightfield (BF)
-        "fotos/D.JPG",    // Index 1: Darkfield (DF)
-        "fotos/1.JPG",   // Index 2: Phase 1
-        "fotos/2.JPG",   // Index 3: Phase 2
-        "fotos/3.JPG"    // Index 4: Phase 3
+        "fotos/D.JPG",     // Index 1: Darkfield (DF)
+        "fotos/1.JPG",     // Index 2: Phase 1
+        "fotos/2.JPG",     // Index 3: Phase 2
+        "fotos/3.JPG"      // Index 4: Phase 3
     ]
 };
 
@@ -22,9 +21,6 @@ let state = {
     dc: 0 
 };
 
-/**
- * Switches from the diagram to the eyepiece view.
- */
 function startLab() {
     document.getElementById('initial-diagram').style.display = 'none';
     document.getElementById('instruction-step').style.display = 'none';
@@ -33,9 +29,6 @@ function startLab() {
     update();
 }
 
-/**
- * Navigates through the images with infinite loop logic.
- */
 function change(type, dir) {
     if (type === 'obj') {
         state.obj = (state.obj + dir + lab.objectives.length) % lab.objectives.length;
@@ -45,11 +38,8 @@ function change(type, dir) {
     update();
 }
 
-/**
- * Checks alignment and updates UI.
- */
 function update() {
-    // Update selector images
+    // Referencias al HTML
     document.getElementById('view-obj').src = lab.objectives[state.obj];
     document.getElementById('view-dc').src = lab.dc_settings[state.dc];
     
@@ -57,44 +47,67 @@ function update() {
     const statusText = document.getElementById('status-text');
     const nextBtn = document.getElementById('Next');
 
+    let isCorrect = false;
+    let selectedSample = "samples/CheekEpithelialCellsBF10x-3033.czi.png"; // Imagen por defecto
+    
+    const currentObj = state.obj; 
+    const currentDC = state.dc;   
 
+    // Reset de efectos
+    sampleImg.style.transform = "scale(1)";
 
- // --- LOGIC: CHECK IF COMBINATION IS CORRECT ---
-let isCorrect = false;
-const currentObj = state.obj; // 0=10x, 1=20x, 2=40x, 3=100x
-const currentDC = state.dc; // 0=BF, 1=DF, 2=Ph1, 3=Ph2, 4=Ph3
+    // --- SELECCIÓN DE MUESTRAS ---
 
-// 1. Brightfield (BF) is always correct
-if (currentDC === 0) {
-isCorrect = true;
-}
-// 2. Darkfield (DF) works with 10x and 20x
-else if (currentDC === 1 && (currentObj === 0 || currentObj === 1)) {
-isCorrect = true;
-}
-// 3. Ph1 matches 10x
-else if (currentDC === 2 && currentObj === 0) {
-isCorrect = true;
-}
-// 4. Ph2 matches 20x or 40x
-else if (currentDC === 3 && (currentObj === 1 || currentObj === 2)) {
-isCorrect = true;
-}
-// 5. Ph3 matches 100x
-else if (currentDC === 4 && currentObj === 3) {
-isCorrect = true;
-}
+    // 1. BRIGHTFIELD 
+    if (currentDC === 0) {
+        isCorrect = true;
+        if (currentObj === 0) selectedSample = "samples/CheekEpithelialCellsBF10x-3033.czi.png";
+        if (currentObj === 1) selectedSample = "samples/CheekEpithelialCellsBF20x-3036.czi.png";
+        if (currentObj === 2) selectedSample = "samples/CheekEpithelialCellsBF40x-3038.czi.png";
+        if (currentObj === 3) selectedSample = "samples/CheekEpithelialCellsBF100x-3040.czi.png";
+    } 
+    
+    // 2. DARKFIELD (10x y 20x usan la misma, 20x con zoom)
+    else if (currentDC === 1) {
+        if (currentObj === 0 || currentObj === 1) {
+            isCorrect = true;
+            selectedSample = "samples/CheekEpithelialCellsDF10x-3045.czi.png"; 
+            if (currentObj === 1) sampleImg.style.transform = "scale(2)";
+        } else if (currentObj === 2) {
+            isCorrect = true;
+            selectedSample = "samples/CheekEpithelialCellsDF40x-3044.czi.png";
+        } else if (currentObj === 3) {
+            isCorrect = true;
+            selectedSample = "samples/CheekEpithelialCellsDF100x-3043.czi.png";
+        }
+    }
 
-// --- APPLY VISUAL CHANGES ---
-if (isCorrect) {
-sampleImg.classList.remove('blurry');
-statusText.innerText = "✓ ALIGNED: Optical path correctly configured.";
-statusText.style.color = "green";
-nextBtn.disabled = false;
-} else {
-sampleImg.classList.add('blurry');
-statusText.innerText = "✗ ERROR: D.C. mismatch for this objective.";
-statusText.style.color = "red";
-nextBtn.disabled = true;
-}
-}
+    // 3. PHASE CONTRAST
+    else if (currentDC === 2 && currentObj === 0) { // Ph1 + 10x
+        isCorrect = true;
+        selectedSample = "samples/cheekephitelialcellsPC20x_3-01.czi.png";
+    }
+    else if (currentDC === 3 && (currentObj === 1 || currentObj === 2)) { // Ph2 + 20/40x
+        isCorrect = true;
+        selectedSample = (currentObj === 1) ? "samples/cheekephitelialcellsPC20x_3-01.czi.png" : "samples/cheekephitelialcellsPC40x_3-02.czi.png";
+    }
+    else if (currentDC === 4 && currentObj === 3) { // Ph3 + 100x
+        isCorrect = true;
+        selectedSample = "samples/cheekephitelialcellsPC100x-01.czi.png";
+    }
+
+    // --- CAMBIOS ---
+    if (isCorrect) {
+        sampleImg.src = selectedSample; 
+        sampleImg.classList.remove('blurry');
+        statusText.innerText = "✓ ALIGNED: Configuration matches the sample.";
+        statusText.style.color = "green";
+        nextBtn.disabled = false;
+    } else {
+        sampleImg.src = "fotos/mitosis_view.jpg"; 
+        sampleImg.classList.add('blurry');
+        statusText.innerText = "✗ ERROR: D.C. mismatch for this objective.";
+        statusText.style.color = "red";
+        nextBtn.disabled = true;
+    }
+} //
