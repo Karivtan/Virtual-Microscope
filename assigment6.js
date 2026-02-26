@@ -61,7 +61,7 @@ function update() {
     // 1. BRIGHTFIELD 
     if (currentDC === 0) {
         isCorrect = true;
-        if (currentObj === 0) selectedSample = "samples/cheekepithelialcellsPC10xgbf-01.czi.png";
+        if (currentObj === 0) selectedSample = "samples/cheekephitelialcellsPC10xgbf-01.czi.png";
         if (currentObj === 1) selectedSample = "samples/cheekephitelialcellsPC20xBF-02.czi.png";
         if (currentObj === 2) selectedSample = "samples/cheekephitelialcellsPC40xbf-03.czi.png";
         if (currentObj === 3) selectedSample = "samples/cheekephitelialcellsPC100xBF-13.czi.png";
