@@ -43,11 +43,12 @@
             }
         .bottom-right { 
             flex: 2;
-             background-color:#111; 
+             background-color:#ffffff; 
              display: flex; 
              justify-content: center; 
              align-items: center; 
              position: relative; 
+             overflow: hidden;
             }
         .map-wrapper {
              position: relative;
@@ -77,6 +78,8 @@
             background: black; 
             position: relative;
     z-index: 5;
+    /* Sombra fuerte para que resalte sobre el fondo blanco */
+    box-shadow: 0 0 0 1000vw #111;
         }
         #sample-img { 
             width: 100%; 
