@@ -43,7 +43,7 @@
             }
         .bottom-right { 
             flex: 2;
-             background-color: #111; 
+             background-color:#111; 
              display: flex; 
              justify-content: center; 
              align-items: center; 
@@ -68,13 +68,15 @@
              z-index: 10;
              }
         #eyepiece-view { 
-            width: 480px; 
-            height: 480px; 
+            width: 600px; 
+            height: 600px; 
             border: 15px solid #222; 
             border-radius: 50%; 
             overflow: hidden; 
             display: none; 
             background: black; 
+            position: relative;
+    z-index: 5;
         }
         #sample-img { 
             width: 100%; 
