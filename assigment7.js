@@ -12,30 +12,35 @@ let currentStep = 0;
 
 const steps = [
     {
+        id: "first_polarizer",
+        pregunta: "Find the: First Polarizer",
+        explicacion: "The First Polarizer is located before the specimen. It constrains light to vibrate in a single plane.",
+        imagen: "fotos/photofrontzeiss.png",
+        clickZoom: "scale(2.2) translate(0px, -180px)", 
+        xmin: 400, xmax: 550, 
+        ymin: 750, ymax: 900 
+    },
+    {
         id: "filter_cube",
-        pregunta: "Find the: Fluorescence Filter Cube",
-        instruccion: "Locate the external compartment on the main body.",
-        explicacion: "The cube contains the dichroic mirror and filters.",
-        imagen: "fotos/photofrontzeiss.png", // Full microscope
+        pregunta: "Find the: second polarizer",
+        explicacion: "The second polarizer (analyzer) is placed after the objective to analyze the light's polarization state.",
+        imagen: "fotos/photofrontzeiss.png",
         xmin: 400, xmax: 480, 
         ymin: 600, ymax: 680 
     },
     {
         id: "objectives",
-        pregunta: "Find the: Objectives",
-        instruccion: "The cover is now removed. Locate the objective lenses.",
-        explicacion: "Objectives collect light from the specimen.",
-        imagen: "fotos/photosintapa.jpg", // Inside view
-        xmin: 450, xmax: 510, 
-        ymin: 580, ymax: 650
+        pregunta: "Find the: Nomarski Prism (DIC) ",
+        imagen: "fotos/photosintapa.jpg",
+        xmin: 400, xmax: 550, 
+        ymin: 540, ymax: 700
     },
     {
         id: "nomarski",
         pregunta: "Find the: Nomarski Prism (DIC)",
-        instruccion: "Identify the prism slider above the objectives.",
         explicacion: "The prism recombines the sheared light beams.",
-        imagen: "fotos/photosintapa.jpg", // Zoom view
-        zoom: "scale(2.8) translate(0px, -80px)",
+        imagen: "fotos/photosintapa.jpg",
+        zoom: "scale(2.8) translate(0px, -80px)", // Este paso SI tiene zoom inicial
         xmin: 490, xmax: 550, 
         ymin: 530, ymax: 600
     },
@@ -51,80 +56,97 @@ const steps = [
 ];
 
 // Initialize the game
-function initGame() {
-    currentStep = 0;
-    assignmentText.textContent = "DIC & Fluorescence Identification";
-    updateUI();
-}
-
 function updateUI() {
-    //  paso QUE estamos cargando
-    if (currentStep < steps.length) {
-        const step = steps[currentStep]; 
+    // 1. COMPROBAMOS SI ESTAMOS EN EL ÚLTIMO PASO (Prisma Detail)
+    if (currentStep === steps.length - 1) {
+        const step = steps[currentStep];
+        
+        // Ponemos la imagen final
+        microscope.src = step.imagen;
+        microscope.style.transform = "scale(1) translate(0, 0)";
 
-        // 1. Update content
-        question.textContent = step.pregunta;
-        instruction.textContent = step.instruccion;
-        explanation.textContent = step.explicacion;
-
-        // 2. Update image (Source change)
-        if (!microscope.src.includes(step.imagen)) {
-            microscope.src = step.imagen;
-        }
-
-        // 3. APLICAR EL ZOOM
-        setTimeout(() => {
-            if (step.zoom) {
-                console.log("Applying zoom:", step.zoom);
-                microscope.style.transform = step.zoom;
-            } else {
-                // Si el paso no tiene zoom , reseteamos
-                microscope.style.transform = "scale(1) translate(0, 0)";
-            }
-        }, 100);
-
-        console.log("Current Step:", step.id, "Image:", step.imagen);
-    } 
-    else {
-        // Final state
+        // Mostramos DIRECTAMENTE los mensajes de victoria
         toastr.success("Assignment 7 completed!", "Congratulations!");
         question.textContent = "All components found!";
         instruction.textContent = "You have completed the identification path.";
         explanation.textContent = "Great job! You can now proceed to the next assignment.";
-        microscope.style.transform = "scale(1) translate(0, 0)"; // Reset final
+        explanation.style.display = "block";
+        
+        // Bloqueamos el ratón para que no ruede más el juego
         microscope.style.pointerEvents = "none"; 
+        return; // Salimos de la función para no ejecutar lo de abajo
+    }
+
+    // 2. LÓGICA PARA LOS PASOS NORMALES (0, 1, 2, 3)
+    if (currentStep < steps.length) {
+        const step = steps[currentStep]; 
+
+        question.textContent = step.pregunta;
+        instruction.textContent = step.instruccion || "Identify the requested component on the microscope.";
+        
+        explanation.style.display = "none";
+        explanation.textContent = step.explicacion;
+
+        if (!microscope.src.includes(step.imagen)) {
+            microscope.src = step.imagen;
+        }
+
+        setTimeout(() => {
+            if (step.zoom) {
+                microscope.style.transform = step.zoom;
+            } else {
+                microscope.style.transform = "scale(1) translate(0, 0)";
+            }
+        }, 100);
     }
 }
 
-// Click Event Listener
+// Click Event Listener modificado para Zoom dinámico
 microscope.addEventListener('click', function(event) {
     if (currentStep >= steps.length) return;
 
     const step = steps[currentStep];
     let coords = getAbsolutClickPosition(event, microscope);
     
-    // Values to help you calibrate coordinates in the console
-    console.log(`Click at - X: ${Math.round(coords.percx)}, Y: ${Math.round(coords.percy)}`);
-
-    // Check if click is inside the target area
     if (coords.percx > step.xmin && coords.percx < step.xmax && 
         coords.percy > step.ymin && coords.percy < step.ymax) {
         
         toastr.success("Correct Location!", "Success");
+
+        // 1. SI EL PASO TIENE UN ZOOM DE CLIC
+        if (step.clickZoom) {
+            microscope.style.transform = step.clickZoom;
+        }
+
+        // 2. MOSTRAR EXPLICACIÓN
+        explanation.style.display = "block";
+        const nextStep = steps[currentStep + 1];
+        if (nextStep && nextStep.imagen !== step.imagen) {
+          
+            setTimeout(() => {
+                microscope.src = nextStep.imagen;
+                microscope.style.transform = "scale(1) translate(0, 0)";
+            }, 800); // Se cambia a los 0.8 segundos 
+        }
         
-        currentStep++; // Move to next step
-        
-        // Short delay to see the success message
+        // 3. SECUENCIA PARA PASAR AL SIGUIENTE
+        // Esperamos 2 segundos para que vean el zoom y lean
         setTimeout(() => {
-            updateUI();
-        }, 1200);
+            // Volvemos a normal antes de cambiar
+            microscope.style.transform = "scale(1) translate(0, 0)";
+            
+            setTimeout(() => {
+                currentStep++; 
+                updateUI();
+            }, 700); 
+            
+        }, 4000);
         
     } else {
         toastr.error("Try again! Look closely at the diagram.", "Wrong Location");
     }
 });
 
-// Coordinate Calculation Logic (Keeps accuracy regardless of screen size)
 function getAbsolutClickPosition(event, MicImage) {
     const rect = MicImage.getBoundingClientRect();
     const imgRatio = MicImage.naturalWidth / MicImage.naturalHeight;
@@ -149,6 +171,10 @@ function getAbsolutClickPosition(event, MicImage) {
         percy: (event.clientY - rect.top - offsetY) / effectiveScale
     };
 }
+function initGame() {
+    currentStep = 0;
+    if(assignmentText) assignmentText.textContent = "DIC & Fluorescence Identification";
+    updateUI();
+}
 
-// Start
 initGame();
