@@ -42,11 +42,12 @@
         }
         .bottom-right { 
             flex: 2;
-            background-color: #111; 
+            background-color: #ffffff; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            position: relative; 
+            position: relative;
+            transition: background-color 0.5s ease; 
         }
         .map-wrapper {
             position: relative;
@@ -67,8 +68,8 @@
             z-index: 10;
         }
         #eyepiece-view { 
-            width: 480px; 
-            height: 480px; 
+            width: 600px; 
+            height: 600px; 
             border: 15px solid #222; 
             border-radius: 50%; 
             overflow: hidden; 
@@ -151,6 +152,22 @@
             border: 1px solid #999;
             border-radius: 4px; 
         }
+        /* Clase para el objetivo 20x (Zoom) */
+.zoom-sample {
+    transform: scale(2) !important;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Clase para el objetivo 10x (Normal) */
+.normal-sample {
+    transform: scale(1) !important;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Aseguramos que la imagen no se salga del círculo del ocular */
+#eyepiece-view {
+    overflow: hidden !important;
+}
     </style>
 </head>
 <body>

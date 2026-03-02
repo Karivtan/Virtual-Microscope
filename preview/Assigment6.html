@@ -43,11 +43,12 @@
             }
         .bottom-right { 
             flex: 2;
-             background-color: #111; 
+             background-color:#ffffff; 
              display: flex; 
              justify-content: center; 
              align-items: center; 
              position: relative; 
+             overflow: hidden;
             }
         .map-wrapper {
              position: relative;
@@ -68,13 +69,17 @@
              z-index: 10;
              }
         #eyepiece-view { 
-            width: 480px; 
-            height: 480px; 
+            width: 600px; 
+            height: 600px; 
             border: 15px solid #222; 
             border-radius: 50%; 
             overflow: hidden; 
             display: none; 
             background: black; 
+            position: relative;
+    z-index: 5;
+    /* Sombra fuerte para que resalte sobre el fondo blanco */
+    box-shadow: 0 0 0 1000vw #111;
         }
         #sample-img { 
             width: 100%; 
@@ -206,7 +211,7 @@
                     <div class="hotspot" style="top: 60.20%; left: 49.30%; width: 25%; height: 25%;" onclick="startLab()"></div>
                 </div>
                 <div id="eyepiece-view">
-                    <img id="sample-img" src="samples/CheekEpithelialCellsBF10x-3033.czi.png">
+                    <img id="sample-img" src="samples/cheekephitelialcellsPC10xgbf-01.czi.png">
                 </div>
             </div>
         </div>

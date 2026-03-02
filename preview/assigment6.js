@@ -48,7 +48,7 @@ function update() {
     const nextBtn = document.getElementById('Next');
 
     let isCorrect = false;
-    let selectedSample = "samples/CheekEpithelialCellsBF10x-3033.czi.png"; // Imagen por defecto
+    let selectedSample = "samples/cheekephitelialcellsPC10xgbf-01.czi.png"; // Imagen por defecto
     
     const currentObj = state.obj; 
     const currentDC = state.dc;   
@@ -61,39 +61,46 @@ function update() {
     // 1. BRIGHTFIELD 
     if (currentDC === 0) {
         isCorrect = true;
-        if (currentObj === 0) selectedSample = "samples/CheekEpithelialCellsBF10x-3033.czi.png";
-        if (currentObj === 1) selectedSample = "samples/CheekEpithelialCellsBF20x-3036.czi.png";
-        if (currentObj === 2) selectedSample = "samples/CheekEpithelialCellsBF40x-3038.czi.png";
-        if (currentObj === 3) selectedSample = "samples/CheekEpithelialCellsBF100x-3040.czi.png";
+        if (currentObj === 0) selectedSample = "samples/cheekephitelialcellsPC10xgbf-01.czi.png";
+        if (currentObj === 1) selectedSample = "samples/cheekephitelialcellsPC20xBF-02.czi.png";
+        if (currentObj === 2) selectedSample = "samples/cheekephitelialcellsPC40xbf-03.czi.png";
+        if (currentObj === 3) selectedSample = "samples/cheekephitelialcellsPC100xBF-13.czi.png";
     } 
     
-    // 2. DARKFIELD (10x y 20x usan la misma, 20x con zoom)
+    // 2. DARKFIELD 
     else if (currentDC === 1) {
-        if (currentObj === 0 || currentObj === 1) {
-            isCorrect = true;
-            selectedSample = "samples/CheekEpithelialCellsDF10x-3045.czi.png"; 
-            if (currentObj === 1) sampleImg.style.transform = "scale(2)";
-        } else if (currentObj === 2) {
-            isCorrect = true;
-            selectedSample = "samples/CheekEpithelialCellsDF40x-3044.czi.png";
-        } else if (currentObj === 3) {
-            isCorrect = true;
-            selectedSample = "samples/CheekEpithelialCellsDF100x-3043.czi.png";
+        isCorrect = true; // Marcamos como correcto si el DC es 1
+    
+        if (currentObj === 0) {
+            // Objetivo 10x
+            selectedSample = "samples/cheekephitelialcellsPC10xd-08.czi.png";
+        } 
+        else if (currentObj === 1) {
+            // Objetivo 20x
+            selectedSample = "samples/cheekephitelialcellsPC20xD-09.czi.png";
+        } 
+        else if (currentObj === 2) {
+            // Objetivo 40x
+            selectedSample = "samples/cheekephitelialcellsPC40xD-10.czi.png";
+        } 
+        else if (currentObj === 3) {
+            // Objetivo 100x
+            selectedSample = "samples/cheekephitelialcellsPC100xD-12.czi.png";
         }
     }
 
     // 3. PHASE CONTRAST
     else if (currentDC === 2 && currentObj === 0) { // Ph1 + 10x
         isCorrect = true;
-        selectedSample = "samples/cheekephitelialcellsPC20x_3-01.czi.png";
+        selectedSample = "samples/cheekephitelialcellsPC10xpc-06.czi.png";
     }
     else if (currentDC === 3 && (currentObj === 1 || currentObj === 2)) { // Ph2 + 20/40x
         isCorrect = true;
-        selectedSample = (currentObj === 1) ? "samples/cheekephitelialcellsPC20x_3-01.czi.png" : "samples/cheekephitelialcellsPC40x_3-02.czi.png";
+        selectedSample = (currentObj === 1) ? "samples/cheekephitelialcellsPC20xpc-05.czi.png" : "samples/cheekephitelialcellsPC40xPC-04.czi.png";
     }
     else if (currentDC === 4 && currentObj === 3) { // Ph3 + 100x
         isCorrect = true;
-        selectedSample = "samples/cheekephitelialcellsPC100x-01.czi.png";
+        selectedSample = "samples/cheekephitelialcellsPC100xPC-14.czi.png";
     }
 
     // --- CAMBIOS ---

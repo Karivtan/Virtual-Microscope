@@ -4,45 +4,34 @@
     <meta charset="UTF-8">
     <title>Microscopy Practical - Assignment 7</title>
 
-
-    <style>/* Base Setup */
+    <style>
+        /* Base Setup */
         body, html {
             height: 100%;
             margin: 0;
+            padding: 0;
             text-align: center;
             font-family: Arial, sans-serif;
             overflow: hidden;
         }
 
+        /* Contenedor principal en Flex para evitar solapamientos */
         .container {
-            display: grid;
-            grid-template-rows: 15% 85%;
-            height: 100%;
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
         }
 
-/* Top Row Navigation */
-        .top-row {
-            display: grid;
-            grid-template-rows: 70% 30%;
-        }
-
+        /* Top Row Navigation */
         .top-row-top {
-            grid-column: 1 / 3;
+            height: 10vh; 
             display: grid;
             grid-template-columns: 1fr 3fr 1fr;
             background-color: #001158;
             color: white;
-            justify-content: center;
             align-items: center;
-        }
-
-        .top-row-left, .top-row-right, .top-row-middle {
-            background-color: rgb(0, 17, 88);
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-shrink: 0; /* Bloquea el tamaño para que no lo pise la imagen */
         }
 
         #Assignment {
@@ -59,14 +48,15 @@
 
         /* BOTTOM SECTION */
         .bottom-row {
+            flex: 1; /* Ocupa todo el espacio debajo del título */
             display: flex;
-            height: 85vh;
             width: 100%;
             align-items: stretch;
+            overflow: hidden;
         }
 
         .bottom-left {
-            flex: 1;
+            flex: 1; /* Ancho fijo para las instrucciones */
             display: grid;
             grid-template-rows: 10% 60% 30%;
             background-color: lightblue;
@@ -99,27 +89,28 @@
             padding: 10px;
         }
 
+        /* Lado de la imagen corregido */
         .bottom-right {
-            flex: 1;
-            background-color: #f8f9fa;
-            border: 2px solid #ddd;
+            flex: 1; 
+            background-color: #ffffff; /* Fondo blanco para que no haya bordes si la foto es blanca */
             overflow: hidden;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Centra horizontal */
+            align-items: center;     /* Centra vertical */
             position: relative;
         }
 
         #Microscope {
             max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    cursor: pointer;
-    display: block; 
-    transition: transform 0.8s ease-in-out; /*animación */
-    transform: scale(1) translate(0, 0); /* Estado inicial */
-}
+            max-height: 100%;
+            object-fit: contain; /* Ajusta la imagen sin deformar ni cortar */
+            cursor: pointer;
+            display: block; 
+            transition: transform 0.8s ease-in-out;
+            transform-origin: center center;
+        }
 
+        /* Textos */
         #AssignmentInfo { font-size: 1.8em; color: #001158; margin: 0; }
         
         #instruction {
@@ -143,16 +134,15 @@
             margin: 0;
         }
     </style>
-    </head>
-    <body>
+</head>
+<body>
     
-        <div class="container">
-            <div class="top-row-top">
-                <div><a href="Assigment6.html"><button>Previous Assignment</button></a></div>
-                <div><h1 id="Assignment">Assignment 7</h1></div>
-                <div><a href="assigment8.html"><button>Next Assignment</button></a></div>
-            </div>
-
+    <div class="container">
+        <div class="top-row-top">
+            <div><a href="Assigment6.html"><button>Previous Assignment</button></a></div>
+            <div><h1 id="Assignment">Assignment 7</h1></div>
+            <div><a href="assigment8.html"><button>Next Assignment</button></a></div>
+        </div>
 
         <div class="bottom-row">
             <div class="bottom-left">
@@ -176,15 +166,13 @@
                      alt="Microscope Diagram">
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </div>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     
-
     <script>
-        // Toastr Configuration
         toastr.options = {
             "closeButton": false,
             "progressBar": true,
