@@ -87,11 +87,11 @@ const lab = {
     selectedSample = "samples/CheekEpithelialCellsDIC100x-3039.czi.png";
     }
     
-    // 2. CONFIGURACIÓN PARA DICL (Lineal)
+    // 2. CONFIGURACIÓN PARA D 
     // Usamos Fase I/H (Índice 6) como el disparador para la muestra Lineal en 100x
     if ((currentObj === 2 || currentObj === 3) && currentDC === 5) {
     isCorrect = true;
-    technique = "DICL " + (currentObj === 2 ? "10x" : "20x");
+    technique = "DARK FIELD" + (currentObj === 2 ? "10x" : "20x");
     selectedSample = "samples/CheekEpithelialCellsDIC10x-3034.czi.png";
     // Aplicamos el zoom a la muestra del ocular (sampleImg)
     if (currentObj === 3) {
