@@ -33,6 +33,7 @@ const steps = [
         id: "objectives",
         pregunta: "Find the: Nomarski Prism (DIC) ",
         imagen: "fotos/photosintapa.jpg",
+        clickZoom: "scale(2.5) translate(0px, -120px)",
         xmin: 400, xmax: 550, 
         ymin: 540, ymax: 700
     },
@@ -115,9 +116,8 @@ microscope.addEventListener('click', function(event) {
         coords.percy > step.ymin && coords.percy < step.ymax) {
         
         toastr.success("Correct Location!", "Success");
-        nextStepBtn.style.display = "block";
 
-        // 1. SI EL PASO TIENE UN ZOOM DE CLIC
+        // 1. EL ZOOM SIEMPRE VA PRIMERO (Para que sea instantáneo)
         if (step.clickZoom) {
             microscope.style.transform = step.clickZoom;
         }
@@ -125,8 +125,38 @@ microscope.addEventListener('click', function(event) {
         // 2. MOSTRAR EXPLICACIÓN
         explanation.style.display = "block";
         explanation.textContent = step.explicacion;
+
+        // 3. LÓGICA SEGÚN EL PASO
+        if (step.id === "objectives") {
+            // CASO OBJETIVOS: NO mostramos botón, pasamos al siguiente texto internamente
+            setTimeout(() => {
+                currentStep++; 
+                const nextStep = steps[currentStep];
+                if (nextStep) {
+                    question.textContent = nextStep.pregunta;
+                    // Si el siguiente paso (prisma) tiene otra imagen, la cargamos
+                    if (nextStep.imagen !== step.imagen) {
+                        microscope.src = nextStep.imagen;
+                    }
+                }
+            }, 600); // Pequeña pausa para que vean el acierto antes de cambiar la pregunta
+
+        } else {
+            // CASO NORMAL (Polarizadores y Prisma final): SÍ mostramos botón
+            nextStepBtn.style.display = "block"; 
+
+            // Si el SIGUIENTE paso requiere cambio de imagen (de tapa a sin tapa)
+            const nextStep = steps[currentStep + 1];
+            if (nextStep && nextStep.imagen !== step.imagen) {
+                setTimeout(() => {
+                    microscope.src = nextStep.imagen;
+                    microscope.style.transform = "scale(1) translate(0, 0)";
+                }, 600);
+            }
+        }
+        
     } else {
-        toastr.error("Try again! Look closely at the diagram in the lecture.", "Wrong Location");
+        toastr.error("Try again!", "Wrong Location");
     }
 });
 
