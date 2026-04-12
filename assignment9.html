@@ -128,35 +128,59 @@
             object-fit: contain;
         }
 
-        /* --- CAMBIO AQUÍ: DIBUJAR EL CONO DE LUZ CON CSS --- */
+        /* --- DIBUJAR EL CONO DE LUZ CON CSS --- */
         #LightEffect {
             position: absolute;
-            /* Ubicación sobre la platina. Ajusta estos valores si no encaja. */
-            bottom: 30%; 
-            left: 45%;
-            
-            /* Tamaño base del haz */
-            width: 120px;
-            height: 180px;
-            
-            z-index: 2;
-            opacity: 0; /* Empieza invisible */
-            pointer-events: none;
-            transition: transform 0.1s ease-out, opacity 0.2s ease-out;
-            
-            /* DIBUJO DEL CONO: Un triángulo con degradado blanco */
-            background: radial-gradient(ellipse at bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 80%);
-            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
-            
-            
-            mix-blend-mode: screen;
-            transform-origin: bottom center; /* Para que crezca desde abajo */
-        }
+/* 1. Coordenada exacta de la punta (el condensador) */
+left: 52.5%;
+bottom: 37% ;
+/* 2. Centrado y preparación para el ensanchamiento */
+transform: translateX(-50%) scaleX(0.2);
+transform-origin: bottom center;
+
+/* 3. Dimensiones del haz (puedes subir el height si quieres que llegue más alto) */
+width: 300px;
+height: 250px;
+z-index: 2;
+opacity: 0;
+pointer-events: none;
+transition: transform 0.1s linear, opacity 0.2s ease-out;
+/* 4. Color de luz intensa y degradado */
+background: linear-gradient(to top,
+rgba(255, 255, 200, 1) 0%, /* Punta muy brillante */
+rgba(255, 255, 180, 0.5) 50%,
+rgba(255, 255, 255, 0) 100% /* Se desvanece al llegar arriba */
+);
+/* 5. Forma de Triángulo invertido */
+clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+mix-blend-mode: screen;
+filter: blur(2px) drop-shadow(0 0 12px rgba(255, 255, 100, 0.9));
+}
 
         /* Estilo para el slider del mando de luz */
         #knobSlider {
             width: 80%;
             margin-top: 20px;
+        }
+        #Microscope {
+            /* Esto obliga a la imagen a no salirse de su cuadro */
+            max-width: 90%; 
+            max-height: 90%;
+            width: auto;
+            height: auto;
+            z-index: 1; 
+            object-fit: contain;
+            display: block;
+            margin: auto;
+        }
+
+        /* Ajuste para el contenedor de la derecha para que centre todo */
+        .bottom-right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            overflow: hidden;
         }
 
     </style>

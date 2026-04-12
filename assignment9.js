@@ -11,7 +11,7 @@ const knobDiv = document.getElementById('knobControl');
 // 2. DEFINICIÓN DE TUS 3 IMÁGENES (Cambia los nombres si tus archivos se llaman distinto)
 const FOTO_1_COMPLETO = "fotos/ZeissLeft.png";           // Micro con objetivos y sin bloque
 const FOTO_2_SIN_OBJETIVO = "fotos/zeissnobojective.png"; // Micro SIN objetivos y sin bloque
-const FOTO_3_CON_PERSPEX = "fotos/zeissblock.png";  // Micro SIN objetivos y CON bloque
+const FOTO_3_CON_PERSPEX = "fotos/zeiisblock.PNG";  // Micro SIN objetivos y CON bloque
 
 // Estado de la simulación
 let isObjectiveRemoved = false;
@@ -63,14 +63,14 @@ btnPerspex.addEventListener('click', function() {
 knobSlider.addEventListener('input', function() {
     if (!isPerspexPlaced) return; 
     
-    let value = this.value; // 0 a 100
+    let value = this.value; 
     
-    // Aparece la luz (brillo)
+    //  (brillo)
     lightEffect.style.opacity = value / 100;
     
     // Se ensancha el cono (apertura)
-    let scaleX = 0.5 + (value / 100); 
-    lightEffect.style.transform = `scaleX(${scaleX})`;
+    let scaleX = 0.2 + (value / 100)* 1.5; 
+    lightEffect.style.transform = `translateX(-50%)  scaleX(${scaleX})`;
     
     // Texto dinámico
     if(value > 80) {
@@ -105,6 +105,22 @@ btnReset.addEventListener('click', function() {
     btnPerspex.innerText = "2. Add Perspex Block";
     
     toastr.info("Simulation reset.");
+});
+// Herramienta para obtener coordenadas solo al hacer clic
+window.addEventListener('click', (e) => {
+    // Coordenadas respecto a la ventana total
+    const xPantalla = e.clientX;
+    const yPantalla = e.clientY;
+
+    // Coordenadas respecto a la imagen del microscopio (ideal para posicionar la luz)
+    const rect = microscopeImg.getBoundingClientRect();
+    const xImagen = e.clientX - rect.left;
+    const yImagen = e.clientY - rect.top;
+
+    console.log("--- CLICK DETECTADO ---");
+    console.log(`En la pantalla: X: ${xPantalla}, Y: ${yPantalla}`);
+    console.log(`Dentro del microscopio: X: ${xImagen.toFixed(0)}, Y: ${yImagen.toFixed(0)}`);
+    
 });
 
 // Al cargar la página por primera vez
