@@ -3,7 +3,7 @@
  */
 
 document.addEventListener("DOMContentLoaded", function() {
-    // References
+    // Referencias
     const MicImage = document.getElementById('Microscope');
     const bottomLeftMiddle = document.getElementById('bottom-left-middle');
     const sampleSelector = document.getElementById('sample-sel');
@@ -13,25 +13,25 @@ document.addEventListener("DOMContentLoaded", function() {
     const loadButton = document.getElementById('loadButton');
     const explanation = document.getElementById('explanation');
 
-    
+    // Variables de estado
     let telescopeActive = false;
     let sampleLoaded = false;
 
-    //  imagen
+    // Capas de imagen
     const SampleImage = document.createElement("img");
     const FDImage = document.createElement("img");
     const CDImage = document.createElement("img");
     const DiffractionImage = document.createElement("img");
     const viewImage = document.createElement("img");
 
-    //  CSS correcto
+    // Inicializar capas con CSS correcto
     [SampleImage, FDImage, viewImage, CDImage, DiffractionImage].forEach((img, i) => {
         img.style.cssText = "width:100%; height:100%; position:absolute; top:0; left:0; object-fit:contain; pointer-events:none; display:block;";
         img.style.zIndex = i;
         bottomLeftMiddle.appendChild(img);
     });
 
-    // 
+    // Carga de recursos iniciales
     viewImage.src = "fotos/Circle.png"; 
     viewImage.style.transform = "scale(7.2)";
     
@@ -56,14 +56,14 @@ document.addEventListener("DOMContentLoaded", function() {
             DiffractionImage.src = "samples/diff_" + type + ".png";
         }
 
-        // 2.
+        // 2. Lógica de Muestra (Visualización real)
         if (type === "diatom") {
             SampleImage.src = "samples/sample_diatom.jpg";
         } else {
             SampleImage.src = "samples/sample_foil.png";
         }
 
-        // 3. 
+        // 3. Simulación de Resolución
         let spotDistance = (type === "1000" || type === "diatom") ? 50 : 25;
         let canResolve = (aperture > spotDistance);
 
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
         updateAbbe();
     };
 
-    // Cargar Muestra
+    // Evento Cargar Muestra
     loadButton.onclick = () => {
         sampleLoaded = !sampleLoaded;
         updateAbbe(); // Actualiza src antes de mostrar
@@ -113,12 +113,12 @@ document.addEventListener("DOMContentLoaded", function() {
         loadButton.textContent = sampleLoaded ? "Remove Specimen" : "Load Specimen";
     };
 
-    // 
+    // Eventos de controles
     irisSlider.oninput = updateAbbe;
     sampleSelector.onchange = updateAbbe;
     objSelector.onchange = updateAbbe;
 
-    // Botón Zeiss 
+    // Botón Zeiss (Único que tienes en el HTML)
     document.getElementById('Zeiss').onclick = () => {
         MicImage.src = "fotos/ZeissFront.png";
     };
