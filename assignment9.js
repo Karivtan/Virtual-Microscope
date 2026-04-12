@@ -106,22 +106,7 @@ btnReset.addEventListener('click', function() {
     
     toastr.info("Simulation reset.");
 });
-// Herramienta para obtener coordenadas solo al hacer clic
-window.addEventListener('click', (e) => {
-    // Coordenadas respecto a la ventana total
-    const xPantalla = e.clientX;
-    const yPantalla = e.clientY;
 
-    // Coordenadas respecto a la imagen del microscopio (ideal para posicionar la luz)
-    const rect = microscopeImg.getBoundingClientRect();
-    const xImagen = e.clientX - rect.left;
-    const yImagen = e.clientY - rect.top;
-
-    console.log("--- CLICK DETECTADO ---");
-    console.log(`En la pantalla: X: ${xPantalla}, Y: ${yPantalla}`);
-    console.log(`Dentro del microscopio: X: ${xImagen.toFixed(0)}, Y: ${yImagen.toFixed(0)}`);
-    
-});
 
 // Al cargar la página por primera vez
 window.onload = function() {
