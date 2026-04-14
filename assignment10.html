@@ -75,7 +75,6 @@
             justify-content: center;
         }
 
-        /* Área de Trabajo / Taller */
         .bottom-left-middle {
             background-color: white;
             display: flex;
@@ -110,7 +109,7 @@
             object-fit: contain;
         }
 
-        /* --- ESTILOS DEL TALLER (WORKSHOP) --- */
+        /* --- WORKSHOP STYLES --- */
         .workshop-container {
             display: flex;
             flex-direction: column;
@@ -131,7 +130,7 @@
 
         select {
             padding: 8px;
-            width: 180px;
+            width: 220px; 
         }
 
         .btn-test {
@@ -160,7 +159,6 @@
             padding: 5px;
         }
 
-        /* --- MEJORA DE LA IMAGEN DEL CUBO --- */
         .cube-image-container {
             text-align: center;
             margin-bottom: 10px;
@@ -169,15 +167,14 @@
             border-radius: 8px;
             border: 1px solid #ddd;
             position: relative;
-            transition: transform 0.3s ease; /* Transición suave */
+            transition: transform 0.3s ease;
             cursor: zoom-in;
             z-index: 5;
         }
 
-        /* Efecto al pasar el ratón */
         .cube-image-container:hover {
-            transform: scale(1.8); /* Se agranda un 60% */
-            z-index: 100; /* Se pone por delante de todo */
+            transform: scale(1.8);
+            z-index: 100;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
@@ -218,7 +215,7 @@
                 <div class="bottom-left-middle" id="bottom-left-middle">
                     <div id="view-start">
                         <h3 id="question">The filter block is empty!</h3>
-                        <p>You need to observe a sample with GFP.</p>
+                        <p>Configure the block to observe the sample markers.</p>
                         <button class="btn-workshop" onclick="showWorkshop()">Go to Workshop</button>
                     </div>
 
@@ -232,15 +229,16 @@
                             </p>
                         </div>
                         
-                        <p style="font-size: 0.9em; color: #555;">Choose components for GFP excitation and emission:</p>
+                        <p style="font-size: 0.9em; color: #555;">Select the components for the optical path:</p>
                         
                         <div class="filter-group">
                             <label><strong>1. Exciter Filter:</strong></label>
                             <select id="exciter-sel">
                                 <option value="none">-- Select --</option>
-                                <option value="blue">Blue (470/40 nm)</option>
-                                <option value="green">Green (545/25 nm)</option>
-                                <option value="uv">UV (365/10 nm)</option>
+                                <option value="365">UV (365/40 nm)</option>
+                                <option value="470">Blue (470/40 nm)</option>
+                                <option value="480">Cyan/Blue (480/40 nm)</option>
+                                <option value="530">Green (530/60 nm)</option>
                             </select>
                         </div>
 
@@ -248,8 +246,10 @@
                             <label><strong>2. Dichroic Mirror:</strong></label>
                             <select id="dichroic-sel">
                                 <option value="none">-- Select --</option>
+                                <option value="405">405 nm Cutoff</option>
                                 <option value="495">495 nm Cutoff</option>
-                                <option value="570">570 nm Cutoff</option>
+                                <option value="555">555 nm Cutoff</option>
+                                <option value="560">560 nm Cutoff</option>
                             </select>
                         </div>
 
@@ -257,8 +257,10 @@
                             <label><strong>3. Emission Filter:</strong></label>
                             <select id="emitter-sel">
                                 <option value="none">-- Select --</option>
-                                <option value="green">Green (525/50 nm)</option>
-                                <option value="red">Red (610/75 nm)</option>
+                                <option value="440">Blue (440/60 nm)</option>
+                                <option value="530em">Green (530/40 nm)</option>
+                                <option value="420LP">420 LP (Long Pass)</option>
+                                <option value="590">Red (590/60 nm)</option>
                             </select>
                         </div>
 
