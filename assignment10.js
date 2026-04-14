@@ -28,18 +28,18 @@ window.hideWorkshop = function() {
 // --- 3. LÓGICA DE VALIDACIÓN ---
 
 window.testBlock = function() {
-    // Obtener valores de los selectores
+    
     const ex = document.getElementById('exciter-sel').value;
     const di = document.getElementById('dichroic-sel').value;
     const em = document.getElementById('emitter-sel').value;
 
-    // Validación inicial
+    
     if (ex === "none" || di === "none" || em === "none") {
         toastr.error("The filter cube is incomplete. Please select all parts.");
         return;
     }
 
-    // Variables por defecto (Oscuridad)
+    
     let finalImg = "fotos/all_black.png";
     let message = "DARKNESS: The light path is blocked or the excitation wavelength is incorrect.";
     let type = "error";
@@ -90,10 +90,10 @@ window.testBlock = function() {
         }
     }
 
-    // --- BLOQUE 3: EXCITACIÓN CIAN/AZUL (480) CORREGIDO ---
+    // --- BLOQUE 3: EXCITACIÓN CIAN/AZUL (480) 
     else if (ex === "480") {
         if (di === "495") {
-            // Casos 440, 530 y 420LP resultan en "Green Haze" según tu tabla
+           
             if (em === "440" || em === "530em" || em === "420LP") {
                 finalImg = "fotos/green_haze.png";
                 message = "WARNING: Green haze detected. Excitation/Emission match is not optimal for 480nm.";
@@ -133,7 +133,7 @@ window.testBlock = function() {
         }
     }
 
-    // --- ACTUALIZAR INTERFAZ ---
+    
     microscopeImg.src = finalImg;
     explanationText.textContent = message;
 
