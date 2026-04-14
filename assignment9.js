@@ -1,114 +1,92 @@
-// 1. Referencias a elementos del HTML
+// 1. Referencias Originales
 const microscopeImg = document.getElementById('Microscope');
-const lightEffect = document.getElementById('LightEffect'); // El DIV de CSS que hace de luz
+const lightEffect = document.getElementById('LightEffect');
 const questionText = document.getElementById('question');
 const btnRemove = document.getElementById('btnRemove');
 const btnPerspex = document.getElementById('btnPerspex');
 const btnReset = document.getElementById('btnReset');
 const knobSlider = document.getElementById('knobSlider');
 const knobDiv = document.getElementById('knobControl');
+const knobOverlay = document.getElementById('knob-overlay'); // Usamos el del HTML
 
-// 2. DEFINICIÓN DE TUS 3 IMÁGENES (Cambia los nombres si tus archivos se llaman distinto)
-const FOTO_1_COMPLETO = "fotos/ZeissLeft.png";           // Micro con objetivos y sin bloque
-const FOTO_2_SIN_OBJETIVO = "fotos/zeissnobojective.png"; // Micro SIN objetivos y sin bloque
-const FOTO_3_CON_PERSPEX = "fotos/zeiisblock.PNG";  // Micro SIN objetivos y CON bloque
+// Rutas de fotos
+const FOTO_1_COMPLETO = "fotos/ZeissLeft.png";
+const FOTO_2_SIN_OBJETIVO = "fotos/zeissnobojective.png";
+const FOTO_3_CON_PERSPEX = "fotos/zeiisblock.PNG";
 
-// Estado de la simulación
+// Estado
 let isObjectiveRemoved = false;
 let isPerspexPlaced = false;
+let isDragging = false;
+let startY = 0;
+let startVal = 0;
 
-/**
- * PASO 1: Quitar los objetivos
- */
+// Función para actualizar la luz (Sincronizada)
+function updateLight(value) {
+    value = Math.max(0, Math.min(100, value));
+    knobSlider.value = value;
+    
+    // Cambia opacidad y escala del haz de luz
+    lightEffect.style.opacity = value / 100;
+    let scaleX = 0.2 + (value / 100) * 1.5; 
+    lightEffect.style.transform = `translateX(-50%) scaleX(${scaleX})`;
+    
+    // Textos según la apertura
+    if(value > 80) questionText.innerText = "Condenser OPEN: Wide Light Cone.";
+    else if (value < 10) questionText.innerText = "Condenser CLOSED: Narrow Light Cone.";
+    else questionText.innerText = "Adjusting Light Cone... Observe the Perspex block.";
+}
+
+// Lógica de arrastre sobre el mando de la imagen
+knobOverlay.addEventListener('mousedown', (e) => {
+    if (!isPerspexPlaced) return;
+    isDragging = true;
+    startY = e.clientY;
+    startVal = parseInt(knobSlider.value);
+    document.body.style.cursor = 'ns-resize';
+    document.body.style.userSelect = 'none'; 
+});
+
+window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    let diff = (startY - e.clientY) * 0.8; // Sensibilidad del movimiento
+    updateLight(startVal + diff);
+});
+
+window.addEventListener('mouseup', () => {
+    isDragging = false;
+    document.body.style.cursor = 'default';
+    document.body.style.userSelect = 'auto';
+});
+
+
+
 btnRemove.addEventListener('click', function() {
     isObjectiveRemoved = true;
-    
-    // CAMBIO A LA FOTO 2
     microscopeImg.src = FOTO_2_SIN_OBJETIVO;
-    
     questionText.innerHTML = "2. Objective removed. Space is clear. \nNow, add the Perspex block to the stage.";
-    
-    // Actualizar botones
     btnRemove.disabled = true;
-    btnRemove.innerText = "Objective Removed ✔";
     btnPerspex.disabled = false;
-    
-    toastr.success("Objectives removed.");
 });
 
-/**
- * PASO 2: Añadir el bloque de Perspex
- */
+// Botón 2: Añadir Bloque y ACTIVAR MANDO
 btnPerspex.addEventListener('click', function() {
     if (!isObjectiveRemoved) return; 
-    
     isPerspexPlaced = true;
-    
-    // CAMBIO A LA FOTO 3
     microscopeImg.src = FOTO_3_CON_PERSPEX;
-    
-    questionText.innerHTML = "3. Perspex block placed. \nRotate the condenser knob to see the light cone.";
-    
-    // Bloquear este paso y mostrar el slider de luz
+    questionText.innerHTML = "3. Perspex block placed. \nUse the knob on the microscope or the slider to change the light cone.";
     btnPerspex.disabled = true;
-    btnPerspex.innerText = "Perspex Placed ✔";
-    knobDiv.style.display = 'block'; 
     
-    toastr.success("Perspex block added.");
+    knobDiv.style.display = 'block'; // Muestra el slider
+    knobOverlay.style.display = 'block'; // Muestra el mando invisible sobre la foto
 });
 
-/**
- * PASO 3: Control de la luz (Slider)
- */
+// Slider manual
 knobSlider.addEventListener('input', function() {
-    if (!isPerspexPlaced) return; 
-    
-    let value = this.value; 
-    
-    //  (brillo)
-    lightEffect.style.opacity = value / 100;
-    
-    // Se ensancha el cono (apertura)
-    let scaleX = 0.2 + (value / 100)* 1.5; 
-    lightEffect.style.transform = `translateX(-50%)  scaleX(${scaleX})`;
-    
-    // Texto dinámico
-    if(value > 80) {
-        questionText.innerText = "Condenser OPEN: Wide Light Cone.";
-    } else {
-        questionText.innerText = "Adjusting Condenser... Observe the light cone.";
-    }
+    updateLight(this.value);
 });
 
-/**
- * REINICIAR TODO
- */
+// Resetear
 btnReset.addEventListener('click', function() {
-    isObjectiveRemoved = false;
-    isPerspexPlaced = false;
-    
-    // Volver a la FOTO 1
-    microscopeImg.src = FOTO_1_COMPLETO;
-    
-    questionText.innerHTML = "1. First, prepare the microscope by removing the objectives.";
-    knobDiv.style.display = 'none';
-    knobSlider.value = 0;
-    
-    // Apagar luz
-    lightEffect.style.opacity = 0;
-    lightEffect.style.transform = `scaleX(0.5)`;
-    
-    // Resetear botones
-    btnRemove.disabled = false;
-    btnRemove.innerText = "1. Remove Objectives";
-    btnPerspex.disabled = true;
-    btnPerspex.innerText = "2. Add Perspex Block";
-    
-    toastr.info("Simulation reset.");
+    location.reload(); 
 });
-
-
-// Al cargar la página por primera vez
-window.onload = function() {
-    microscopeImg.src = FOTO_1_COMPLETO;
-};
