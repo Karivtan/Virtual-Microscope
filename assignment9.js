@@ -18,7 +18,7 @@ const FOTO_3_CON_PERSPEX = "fotos/zeiisblock.PNG";
 let isObjectiveRemoved = false;
 let isPerspexPlaced = false;
 let isDragging = false;
-let startY = 0;
+let startx = 0;
 let startVal = 0;
 
 // Función para actualizar la luz (Sincronizada)
@@ -32,24 +32,27 @@ function updateLight(value) {
     lightEffect.style.transform = `translateX(-50%) scaleX(${scaleX})`;
     
     // Textos según la apertura
-    if(value > 80) questionText.innerText = "Condenser OPEN: Wide Light Cone.";
-    else if (value < 10) questionText.innerText = "Condenser CLOSED: Narrow Light Cone.";
-    else questionText.innerText = "Adjusting Light Cone... Observe the Perspex block.";
+    if(value > 80)
+     questionText.innerText = "Condenser OPEN: Wide Light Cone.";
+    else if (value < 10)
+     questionText.innerText = "Condenser CLOSED: Narrow Light Cone.";
+    else 
+    questionText.innerText = "Adjusting Light Cone... Observe the Perspex block.";
 }
 
 // Lógica de arrastre sobre el mando de la imagen
 knobOverlay.addEventListener('mousedown', (e) => {
     if (!isPerspexPlaced) return;
     isDragging = true;
-    startY = e.clientY;
+    startx = e.clientX;
     startVal = parseInt(knobSlider.value);
-    document.body.style.cursor = 'ns-resize';
+    document.body.style.cursor = 'ew-resize';
     document.body.style.userSelect = 'none'; 
 });
 
 window.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
-    let diff = (startY - e.clientY) * 0.8; // Sensibilidad del movimiento
+    let diff = (e.clientX - startx) * 0.8; // Sensibilidad del movimiento
     updateLight(startVal + diff);
 });
 
