@@ -40,7 +40,7 @@ function updateLight(value) {
     questionText.innerText = "Adjusting Light Cone... Observe the Perspex block.";
 }
 
-// Lógica de arrastre sobre el mando de la imagen
+
 knobOverlay.addEventListener('mousedown', (e) => {
     if (!isPerspexPlaced) return;
     isDragging = true;
