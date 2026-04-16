@@ -1,115 +1,154 @@
 /**
  * Assignment 10: Fluorescence Filter Block Assembly
- * Logic for Workshop and Microscope Simulation
  */
 
-console.log("Assignment 10: JS Loaded");
+console.log("Assignment 10: JS Loaded with extended logic");
 
-// --- 1. CONFIGURACIÓN DE OBJETIVOS ---
-const gfpCorrectCombo = {
-    exciter: "blue",
-    dichroic: "495",
-    emitter: "green"
-};
-
-// --- 2. ELEMENTOS DEL DOM ---
+// --- 1. ELEMENTOS DEL DOM ---
 const microscopeImg = document.getElementById('Microscope');
 const explanationText = document.getElementById('explanation');
 const viewStart = document.getElementById('view-start');
 const viewWorkshop = document.getElementById('view-workshop');
 
-// --- 3. FUNCIONES DE NAVEGACIÓN ---
+// --- 2. FUNCIONES DE NAVEGACIÓN ---
 
-/**
- * Muestra el panel del taller y oculta el mensaje inicial
- */
-function showWorkshop() {
+window.showWorkshop = function() {
     viewStart.style.display = 'none';
     viewWorkshop.style.display = 'flex';
     explanationText.textContent = "Workshop mode: Selecting components for the filter cube...";
-    
-    // Opcional: Cambiar la imagen del micro a una del cubo vacío si la tienes
-    // microscopeImg.src = "fotos/empty_cube.jpg"; 
-}
+};
 
-/**
- * Oculta el taller y vuelve al estado inicial
- */
-function hideWorkshop() {
+window.hideWorkshop = function() {
     viewWorkshop.style.display = 'none';
     viewStart.style.display = 'block';
     explanationText.textContent = "To begin, go to the workshop and assemble the filter block.";
     microscopeImg.src = "fotos/ZeissRight.jpg";
-}
+};
 
-// --- 4. LÓGICA DE VALIDACIÓN ---
+// --- 3. LÓGICA DE VALIDACIÓN ---
 
-/**
- * Evalúa los filtros seleccionados y muestra el resultado en el ocular
- */
-function testBlock() {
-    // Obtener los valores seleccionados por el alumno
-    const selectedEx = document.getElementById('exciter-sel').value;
-    const selectedDi = document.getElementById('dichroic-sel').value;
-    const selectedEm = document.getElementById('emitter-sel').value;
+window.testBlock = function() {
+    
+    const ex = document.getElementById('exciter-sel').value;
+    const di = document.getElementById('dichroic-sel').value;
+    const em = document.getElementById('emitter-sel').value;
 
-    // Validación: No permitir campos vacíos
-    if (selectedEx === "none" || selectedDi === "none" || selectedEm === "none") {
+    
+    if (ex === "none" || di === "none" || em === "none") {
         toastr.error("The filter cube is incomplete. Please select all parts.");
         return;
     }
 
-    // CASO 1: ÉXITO TOTAL (GFP)
-    if (selectedEx === gfpCorrectCombo.exciter && 
-        selectedDi === gfpCorrectCombo.dichroic && 
-        selectedEm === gfpCorrectCombo.emitter) {
-        
-        microscopeImg.src = "fotos/fluocells.jpeg";
-        explanationText.textContent = "SUCCESS! The block is perfectly configured. \nBlue light excites GFP, 495nm mirror reflects it, and Green filter lets the emission pass.";
-        toastr.success("Perfectly assembled!");
-    } 
     
-    // CASO 2: FUGA DE LUZ (Excitation Leak)
-    // El alumno puso luz azul pero se olvidó el filtro de barrera verde
-    else if (selectedEx === "blue" && selectedDi === "495" && selectedEm !== "green") {
-        microscopeImg.src = "fotos/blue_glare.png";
-        explanationText.textContent = "WARNING: Intense blue light detected. \nYou are seeing the excitation light because the emission filter is wrong or missing.";
-        toastr.warning("Check the Emission Filter!");
+    let finalImg = "fotos/all_black.png";
+    let message = "DARKNESS: The light path is blocked or the excitation wavelength is incorrect.";
+    let type = "error";
+
+    // --- BLOQUE 1: EXCITACIÓN UV (365) ---
+    if (ex === "365") {
+        if (di === "405") {
+            if (em === "440") {
+                finalImg = "fotos/blue_nuclei.jpeg";
+                message = "SUCCESS: You can see the blue nuclei (DAPI/Hoechst).";
+                type = "success";
+            } 
+            else if (em === "420LP") {
+                finalImg = "fotos/multi_color.jpeg";
+                message = "SUCCESS: Blue nuclei, green cytoskeleton and red mitochondria are visible.";
+                type = "success";
+            }
+            else {
+                finalImg = "fotos/all_black.png";
+                message = "BLACK: The emission filter is blocking the signal.";
+            }
+        } else {
+            finalImg = "fotos/all_black.png";
+            message = "BLACK: The dichroic mirror cutoff is too high for UV light.";
+        }
     }
 
-    // CASO 3: EXCITACIÓN INCORRECTA
-    // Si usa verde para excitar GFP, no habrá energía suficiente
-    else if (selectedEx === "green") {
-        microscopeImg.src = "fotos/all_black.png";
-        explanationText.textContent = "DARKNESS: Green light does not have enough energy to excite GFP molecules.";
-        toastr.error("Wrong excitation wavelength.");
+    // --- BLOQUE 2: EXCITACIÓN AZUL (470) ---
+    else if (ex === "470") {
+        if (di === "495") {
+            if (em === "530em") {
+                finalImg = "fotos/green_cells.jpeg";
+                message = "SUCCESS: You can see the green cytoskeleton.";
+                type = "success";
+            } 
+            else if (em === "420LP") {
+                finalImg = "fotos/green_haze.png";
+                message = "WARNING: Green haze. The Long Pass filter is letting too much background light through.";
+                type = "warning";
+            }
+            else {
+                finalImg = "fotos/all_black.png";
+                message = "BLACK: Incorrect emission filter for blue excitation.";
+            }
+        } else {
+            finalImg = "fotos/all_black.png";
+            message = "BLACK: The dichroic mirror is not reflecting the 470nm light to the sample.";
+        }
     }
 
-    // CASO 4: ERROR DE ESPEJO DICROICO
-    // Si el espejo es de 570nm, dejará pasar el azul hacia arriba en lugar de reflejarlo a la muestra
-    else if (selectedDi === "570" && selectedEx === "blue") {
-        microscopeImg.src = "fotos/all_black.png";
-        explanationText.textContent = "DARKNESS: The 570nm mirror is letting the blue light pass through instead of reflecting it to the sample.";
-        toastr.error("Check the Dichroic Mirror cutoff.");
+    // --- BLOQUE 3: EXCITACIÓN CIAN/AZUL (480) 
+    else if (ex === "480") {
+        if (di === "495") {
+           
+            if (em === "440" || em === "530em" || em === "420LP") {
+                finalImg = "fotos/green_haze.png";
+                message = "WARNING: Green haze detected. Excitation/Emission match is not optimal for 480nm.";
+                type = "warning";
+            } 
+            else if (em === "590") {
+                finalImg = "fotos/all_black.png";
+                message = "BLACK: No match for these wavelengths.";
+                type = "error";
+            }
+        } else {
+            finalImg = "fotos/all_black.png";
+            message = "BLACK: Light path error.";
+        }
     }
 
-    // CASO 5: CUALQUIER OTRO ERROR
-    else {
-        microscopeImg.src = "fotos/all_black.png";
-        explanationText.textContent = "DARKNESS: The light path is blocked or the protein is not excited.";
-        toastr.error("Incorrect assembly. Try again.");
+    // --- BLOQUE 4: EXCITACIÓN VERDE (530) ---
+    else if (ex === "530") {
+        if (di === "555") {
+            if (em === "590") {
+                finalImg = "fotos/red_mitochondria.jpeg";
+                message = "SUCCESS: You can see the red mitochondria.";
+                type = "success";
+            } 
+            else if (em === "530em" || em === "420LP") {
+                finalImg = "fotos/orange_haze.png";
+                message = "WARNING: Orange haze. Emission filter is overlapping with excitation.";
+                type = "warning";
+            }
+            else {
+                finalImg = "fotos/all_black.png";
+                message = "BLACK: Emission filter mismatch.";
+            }
+        } else {
+            finalImg = "fotos/all_black.png";
+            message = "BLACK: The dichroic mirror is not suitable for green excitation.";
+        }
     }
-}
 
-// --- 5. BOTONES DE MARCA (OPCIONAL) ---
-// Puedes resetear el micro si pulsan Leica, Zeiss, etc.
-document.getElementById('Zeiss').addEventListener('click', function() {
-    microscopeImg.src = "fotos/ZeissRight.jpg";
-    toastr.info("Zeiss Microscope selected.");
-});
+    
+    microscopeImg.src = finalImg;
+    explanationText.textContent = message;
 
-// Configuración de Toastr (Notificaciones flotantes)
-toastr.options = {
-    "positionClass": "toast-bottom-right",
-    "timeOut": "3000"
+    if (type === "success") toastr.success("Perfect combination!");
+    else if (type === "warning") toastr.warning("Image quality is poor.");
+    else toastr.error("Incorrect assembly.");
 };
+
+// --- 4. EVENTOS DE BOTONES EXTRAS ---
+document.addEventListener('DOMContentLoaded', () => {
+    const btnZeiss = document.getElementById('Zeiss');
+    if (btnZeiss) {
+        btnZeiss.addEventListener('click', function() {
+            microscopeImg.src = "fotos/ZeissRight.jpg";
+            explanationText.textContent = "To begin, go to the workshop and assemble the filter block.";
+        });
+    }
+});
