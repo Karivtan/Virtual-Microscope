@@ -45,28 +45,36 @@ document.addEventListener("DOMContentLoaded", function() {
         const type = sampleSelector.value;
         const aperture = parseInt(irisSlider.value);
         const objective = objSelector.value;
-
+    
         // 1. Cargar Imágenes
         if (!sampleLoaded || type === "none") {
             DiffractionImage.src = "samples/diff_none.png";
             SampleImage.src = "";
         } else {
+            // Carga automática del patrón: diff_500.png, diff_diatom1.png, etc.
             DiffractionImage.src = "samples/diff_" + type + ".png";
-            SampleImage.src = (type === "500") ? "samples/sample_foil_500.jpeg" : 
-                             (type === "1000") ? "samples/sample_foil_1000.jpeg" : 
-                             "samples/sample_diatom.jpg";
+    
+            // Selección de la imagen del espécimen
+            if (type === "500") {
+                SampleImage.src = "samples/sample_foil_500.jpeg";
+            } else if (type === "1000") {
+                SampleImage.src = "samples/sample_foil_1000.jpeg";
+            } else if (type === "diatom1") {
+                SampleImage.src = "samples/sample_diatom1.jpg";
+            } else if (type === "diatom2") {
+                SampleImage.src = "samples/sample_diatom2.jpg";
+            }
         }
-
+    
         // 2. Lógica de Zooms Diferenciados
-      
         let sampleZoom = 1; 
         if (objective === "40") sampleZoom = 2.5; 
         if (objective === "100") sampleZoom = 5;
-
-        let diffZoom = 5; // 
+    
+        let diffZoom = 5; 
         if (objective === "40") diffZoom = 2.5; 
         if (objective === "100") diffZoom = 1; 
-
+    
         // Aplicar transformaciones
         if (telescopeActive) {
             DiffractionImage.style.transform = `scale(${diffZoom})`;
@@ -77,12 +85,15 @@ document.addEventListener("DOMContentLoaded", function() {
             SampleImage.style.transform = `scale(${sampleZoom})`;
             CDImage.style.visibility = "hidden";
         }
-
-        // 3. Resolución (Abbe)
-       
-        let spotDistance = (type === "1000") ? 40 : 20;
+    
+        // 3. Resolución (Principio de Abbe)
+        // Configuramos el spotDistance (dificultad) para cada una
+        let spotDistance = 20; // Base para 500 y diatom1
+        if (type === "1000") spotDistance = 40;
+        if (type === "diatom2") spotDistance = 35; // diatom2 requiere más apertura que la 1
+    
         let requiredAperture = spotDistance * diffZoom;
-
+    
         if (sampleLoaded && type !== "none") {
             if (aperture < requiredAperture) {
                 SampleImage.style.filter = "blur(12px) contrast(0.5)";
