@@ -71,8 +71,8 @@ document.addEventListener("DOMContentLoaded", function() {
         if (objective === "40") sampleZoom = 2.5; 
         if (objective === "100") sampleZoom = 5;
     
-        let diffZoom = 5; 
-        if (objective === "40") diffZoom = 2.5; 
+        let diffZoom = 3; 
+        if (objective === "40") diffZoom = 2; 
         if (objective === "100") diffZoom = 1; 
     
         // Aplicar transformaciones
@@ -87,10 +87,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     
         // 3. Resolución (Principio de Abbe)
-        // Configuramos el spotDistance (dificultad) para cada una
-        let spotDistance = 20; // Base para 500 y diatom1
+        
+        let spotDistance = 20; 
         if (type === "1000") spotDistance = 40;
-        if (type === "diatom2") spotDistance = 35; // diatom2 requiere más apertura que la 1
+        if (type === "diatom2") spotDistance = 15; 
     
         let requiredAperture = spotDistance * diffZoom;
     
