@@ -71,9 +71,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (objective === "40") sampleZoom = 2.5; 
         if (objective === "100") sampleZoom = 5;
     
-        let diffZoom = 3; 
-        if (objective === "40") diffZoom = 2; 
-        if (objective === "100") diffZoom = 1; 
+        let diffZoom = 5; 
+        if (objective === "40") diffZoom = 2.5; 
+        if (objective === "100") diffZoom = 1.2; 
     
         // Aplicar transformaciones
         if (telescopeActive) {
