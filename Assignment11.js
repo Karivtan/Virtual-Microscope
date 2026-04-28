@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     
         // 2. Lógica de Zooms Diferenciados
-        let sampleZoom = 1; 
+        let sampleZoom = 1.5; 
         if (objective === "40") sampleZoom = 2.5; 
         if (objective === "100") sampleZoom = 5;
     
