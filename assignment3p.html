@@ -69,21 +69,24 @@
 
 
         .bottom-left-middle {
-             background-color: rgb(255, 255, 255); 
-             position: relative; 
-             display: flex; 
-             flex-direction: column;
-              padding: 20px;
-               align-items: center;
-                justify-content: center; 
-            }
+    background-color: rgb(255, 255, 255); 
+    position: relative; 
+    display: flex; 
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+    justify-content: center; 
+    height: 250px; 
+    overflow: hidden;
+}
         .bottom-left-bottom { 
             background-color: rgb(133, 146, 188);
-             display:grid;
-              grid-template-columns: 1fr 1fr 1fr;
-               gap: 10px;
-                padding: 10px;
-             }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 10px;
+    height: auto;
+}
         
         
         .bottom-right { 
@@ -117,11 +120,12 @@
              font-size: 2em;
               margin: 0;
              }
-        #question { 
-            font-size: 1.8em;
-             white-space: pre-wrap;
-             }
-        
+        #question {  
+    font-size: 1.1em;
+    line-height: 1.2;
+    margin: 5px 0;
+    white-space: normal;
+}
         
         #Microscope { 
             width: 100%;
@@ -133,29 +137,32 @@
 
 
         #LightEffect {
-            position: absolute;
-            left: 48%; 
-            bottom: 40% ;
-            transform: translateX(-50%)
-             scaleX(0.2);
-            transform-origin: bottom center;
-            width: 40%;
-            height: 50%;
-            z-index: 2;
-            opacity: 0;
-            pointer-events: none;
-            background: linear-gradient(to top, rgba(255, 255, 200, 1) 0%, rgba(255, 255, 255, 0) 100%);
-            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
-        }
-
+position: absolute;
+left: 48%;
+bottom: 40% ;
+transform: translateX(-50%)
+scaleX(0.2);
+transform-origin: bottom center;
+width: 20%;
+height: 8%;
+z-index: 2;
+opacity: 0;
+pointer-events: none;
+background: linear-gradient(to top, rgba(255, 255, 200, 1) 0%, rgba(255, 255, 255, 0) 100%);
+clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
         button { 
-            padding: 10px;
-             font-weight: bold;
-              cursor: pointer;
-             }
-        #knobSlider {
-             width: 80%; 
-             margin-top: 20px; 
+            padding: 8px 4px; 
+    font-size: 0.85em; 
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+        }
+    #knobSlider {
+             width: 90%; 
+             margin-top: 10px; 
             }
             #knob-overlay {
     position: absolute;
