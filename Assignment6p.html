@@ -11,47 +11,46 @@ body, html {
 
 .container {
   display: grid;
-  grid-template-rows: 15% 85%; /* 15% top, 85% bottom */
+  grid-template-rows: 15% 85%; 
   height: 100%;
-  width:100%
+  width: 100%;
 }
 .top-row {
-  display: grid;
-  grid-template-rows: 70% 30%; /* top row split in two */
+  display: flex;
+  flex-direction: column; 
+  background-color: #001158;
 }
 .top-row-top {
-  grid-column: 1 / 3; /* Span across both columns */
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr; /* Three equal columns */
-  flex-direction: row; /* Stack items vertically */
-  background-color: #001158; /* Example styling */
-  color:white;
-  justify-content: center;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 10px 20px;
+  flex: 1;
 }
-
 .top-row-left {
-  background-color: rgb(0, 17, 88); /* Example styling */
+  background-color: rgb(0, 17, 88);
+  flex: 0 0 auto; 
 }
 
 .top-row-right {
-  background-color: rgb(0, 17, 88); /* Example styling */
+  background-color: rgb(0, 17, 88); 
+  flex: 0 0 auto;
 }
 
 .top-row-middle {
-  background-color: rgb(0, 17, 88); /* Example styling */
-}
-
-.top-row-bottom {
-  grid-column: 1 / 3; /* Span across both columns */
-  grid-template-columns: 1fr 1fr 1fr 1fr; /* Three equal columns */
-  background-color: #001158; /* Example styling */
-  color:white;
-  display: flex; /* Center content if needed */
+  flex: 1; 
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.top-row-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background-color: #000c3d;
+  padding: 5px 0;
+}
 .bottom-row { /*bottom row contains bottom left, and bottom right */
     height: 100%;
     display: grid;
@@ -110,7 +109,7 @@ body, html {
 
 .bottom-right {
     display:grid;
-    height:100%
+    height:100%;
     background-color: rgb(255, 255, 255); /* Example styling */
     justify-items: center;
     align-items: center;
@@ -118,12 +117,15 @@ body, html {
     position:relative;
 }
 
-#Assignment {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-    color:white
-}
 
+#Assignment {
+  font-size: 1.6rem; 
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+    flex: 2; 
+}
 #counter {
     font-size: 2em;
     margin-bottom: 50px;
@@ -160,20 +162,16 @@ body, html {
     <div class="container">
         <div class="top-row">
             <div class="top-row-top">
-                <div class="top-row-left">
-                    <a href="Assignment3.html">
-                    <button id="Previous">Previous Assignment</button>
-                    </a>
-                </div>
-                <div class="top-row-middle">
-                    <h1 id="Assignment">Assignment 4</h1>
-                </div>
-                <div class="top-row-right">
-                    <a href="assigment5.html">
-                    <button id="Next">Next Assignment</button>
-                    </a>
-                </div>
-            </div>
+              <div class="top-row-left">
+                  <a href="assigment5.html"><button id="Previous">Previous assignment</button></a>
+              </div>
+              <div class="top-row-middle">
+                  <h1 id="Assignment">Assignment 6: Align phase contrast</h1>
+              </div>
+              <div class="top-row-right">
+                  <a href="Assigment7p.html"><button id="Next">Next assignment</button></a>
+              </div>
+          </div>
             <div class="top-row-bottom">
                 <div>
                     <button id="Olympus">Olympus</button>
@@ -254,7 +252,7 @@ body, html {
         "hideMethod": "fadeOut",
         }
     </script>
-    <script src="Assignment4.js"></script> 
+    <script src="Assignment6p.js"></script> 
 </body>
    
 </html>

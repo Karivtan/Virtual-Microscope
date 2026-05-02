@@ -1,12 +1,6 @@
-/*
-#TODO more samples
-#TODO more realistig condensor effects and link between condensor and image, 
-    check all button positions
-    toastr checklist in green appearing indefinitely on the right top?
 
-*/
 
-console.log("Assignment 3 loaded");
+console.log("Assignment 4 loaded");
 // constants needed for script
 // button components
 const rotateLeft = document.getElementById('rotateLeft'); // Rotates the microscope image
