@@ -86,8 +86,23 @@ const lab = {
     technique = "DIC 100x";
     selectedSample = "samples/CheekEpithelialCellsDIC100x-3039.czi.png";
     }
-    
-    // 2. CONFIGURACIÓN PARA D 
+    // 2. CONFIGURACIONES PARA PC ESTÁNDAR
+    else if (currentDC === 2 && currentObj === 2) { // Ph1 + 10x
+        isCorrect = true;
+        technique = "PHASE 1";
+        selectedSample = "samples/cheekephitelialcellsPC10xpc-06.czi.png";
+    }
+    else if (currentDC === 3 && (currentObj === 3 || currentObj === 4)) { // Ph2 + 20/40x
+        isCorrect = true;
+        technique = "PHASE 2";
+        selectedSample = (currentObj === 3) ? "samples/cheekephitelialcellsPC20xpc-05.czi.png" : "samples/cheekephitelialcellsPC40xPC-04.czi.png";
+    }
+    else if (currentDC === 4 && currentObj === 5) { // Ph3 + 100x
+        isCorrect = true;
+        technique = "PHASE 3";
+        selectedSample = "samples/cheekephitelialcellsPC100xPC-14.czi.png";
+    }
+    // 3. CONFIGURACIÓN PARA D 
     // Usamos Fase I/H (Índice 6) como el disparador para la muestra Lineal en 100x
     if ((currentObj === 2 || currentObj === 3) && currentDC === 5) {
     isCorrect = true;
@@ -107,23 +122,30 @@ const lab = {
     sampleImg.classList.remove("zoom-sample");
     sampleImg.classList.add("normal-sample");
     }
-    // --- MANEJO DE RESULTADOS ---
-    if (isCorrect) {
+   
+   // --- MANEJO DE RESULTADOS ---
+   if (isCorrect) {
     sampleImg.src = selectedSample;
     sampleImg.classList.remove('blurry');
-    statusText.innerText = "✓ ALIGNED: " + technique + " mode active.";
+    
+    // Si no hay técnica definida (en los bloques de Phase), ponemos un nombre genérico
+    let displayTechnique = technique || "PHASE CONTRAST";
+    
+    statusText.innerText = "✓ ALIGNED: " + displayTechnique + " mode active.";
     statusText.style.color = "green";
     if (nextBtn) nextBtn.disabled = false;
-    } else {
-    // Si no hay combinación correcta, se ve borroso
+} else {
     sampleImg.classList.add('blurry');
     statusText.style.color = "red";
-    // Mensaje de error dinámico
+    
+    // Mensaje de error específico para cuando se usan los anillos de fase (2, 3, 4)
     if (currentDC >= 2 && currentDC <= 4) {
-    statusText.innerText = "✗ PHASE ERROR: Rings 1, 2, 3 are for Phase Contrast.";
+        statusText.innerText = "✗ PHASE ERROR: The selected Phase Ring (1, 2 or 3) does not match this Objective.";
     } else {
-    statusText.innerText = "✗ MISALIGNED: Prism/Phase does not match the Objective.";
+        // Error genérico para DIC o Darkfield
+        statusText.innerText = "✗ MISALIGNED: Please select the correct setting for this Objective.";
     }
+    
     if (nextBtn) nextBtn.disabled = true;
-    }
+}
     }

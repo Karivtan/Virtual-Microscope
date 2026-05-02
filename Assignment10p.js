@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function() {
             FDImage.style.visibility = "visible";
             CDImage.style.visibility = "hidden";
             DiffractionImage.style.visibility = "hidden";
-            ocularButton.textContent = "Insert Centering Telescope";
+            ocularButton.textContent = "put back eyepiece";
         }
         updateAbbe();
     };
