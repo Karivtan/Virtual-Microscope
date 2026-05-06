@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Microscopy Practical - Assignment 7</title>
+
+    <style>
+        /* Base Setup */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal en Flex para evitar solapamientos */
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Top Row Navigation */
+        .top-row-top {
+            height: 10vh; 
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr;
+            background-color: #001158;
+            color: white;
+            align-items: center;
+            flex-shrink: 0; /* Bloquea el tamaño para que no lo pise la imagen */
+        }
+
+        #Assignment {
+            font-size: 2em;
+            margin: 0;
+            color: white;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* BOTTOM SECTION */
+        .bottom-row {
+            flex: 1; /* Ocupa todo el espacio debajo del título */
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+            overflow: hidden;
+        }
+
+        .bottom-left {
+            flex: 1; /* Ancho fijo para las instrucciones */
+            display: grid;
+            grid-template-rows: 10% 60% 30%;
+            background-color: lightblue;
+        }
+
+        .bottom-left-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgb(209, 218, 255);
+            justify-content: center;
+        }
+
+        .bottom-left-middle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .bottom-left-bottom {
+            background-color: rgb(133, 146, 188);
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        /* Lado de la imagen corregido */
+        .bottom-right {
+            flex: 1; 
+            background-color: #ffffff; /* Fondo blanco para que no haya bordes si la foto es blanca */
+            overflow: hidden;
+            display: flex;
+            justify-content: center; /* Centra horizontal */
+            align-items: center;     /* Centra vertical */
+            position: relative;
+        }
+
+        #Microscope {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ajusta la imagen sin deformar ni cortar */
+            cursor: pointer;
+            display: block; 
+            transition: transform 0.8s ease-in-out;
+            transform-origin: center center;
+        }
+
+        /* Textos */
+        #AssignmentInfo { font-size: 1.5em; color: #001158; margin: 0; }
+        
+        #instruction {
+            font-size: 1.8em;
+            color: #555;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+
+        #question {
+            font-size: 3em;
+            color: #001158;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+
+        #explanation {
+            font-size: 1.5em;
+            color: white;
+            white-space: pre-wrap;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="top-row-top">
+            <div><a href="Assigment7p.html"><button>Previous Assignment</button></a></div>
+            <div><h1 id="Assignment">Assignment 8:DIC & fluorescence identification</h1></div>
+            <div><a href="assigment9p.html"><button>Next Assignment</button></a></div>
+        </div>
+
+        <div class="bottom-row">
+            <div class="bottom-left">
+                <div class="bottom-left-top" id="bottom-left-top">
+                    <h1 id="AssignmentInfo">DIC & fluorescence identification</h1>
+                </div>
+                
+                <div class="bottom-left-middle" id="bottom-left-middle">
+                    <h3 id="instruction">Identify the requested component on the microscope.</h3>
+                    <h1 id="question">Loading...</h1>
+                    <button id="nextStepBtn" style="display: none; margin-top: 20px; padding: 15px 30px; background-color: #28a745; color: white; border: none; border-radius: 8px; font-size: 1.5em; font-weight: bold; cursor: pointer;">
+                        Next Step →
+                    </button>
+                </div> 
+
+                <div class="bottom-left-bottom" id="bottom-left-bottom">
+                    <h1 class="explanation" id="explanation">Follow the steps to explore the internal parts.</h1>
+                </div>
+            </div>
+          
+            <div id="micIm" class="bottom-right">
+                <img id="Microscope" 
+                     src="fotos/photofrontzeiss.png" 
+                     alt="Microscope Diagram">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "progressBar": true,
+            "preventDuplicates": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "2000",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    </script>
+
+    <script src="assigment8p.js"></script> 
+</body>
+</html>
