@@ -48,7 +48,7 @@
 
         /* BOTTOM SECTION */
         .bottom-row {
-            flex: 1; /* Ocupa todo el espacio debajo del título */
+            flex: 1; 
             display: flex;
             width: 100%;
             align-items: stretch;
@@ -56,7 +56,7 @@
         }
 
         .bottom-left {
-            flex: 1; /* Ancho fijo para las instrucciones */
+            flex: 1; 
             display: grid;
             grid-template-rows: 10% 60% 30%;
             background-color: lightblue;
@@ -89,28 +89,28 @@
             padding: 10px;
         }
 
-        /* Lado de la imagen corregido */
+    
         .bottom-right {
             flex: 1; 
-            background-color: #ffffff; /* Fondo blanco para que no haya bordes si la foto es blanca */
+            background-color: #ffffff; 
             overflow: hidden;
             display: flex;
-            justify-content: center; /* Centra horizontal */
-            align-items: center;     /* Centra vertical */
+            justify-content: center; 
+            align-items: center;   
             position: relative;
         }
 
         #Microscope {
             max-width: 100%;
             max-height: 100%;
-            object-fit: contain; /* Ajusta la imagen sin deformar ni cortar */
+            object-fit: contain; 
             cursor: pointer;
             display: block; 
             transition: transform 0.8s ease-in-out;
             transform-origin: center center;
         }
 
-        /* Textos */
+        
         #AssignmentInfo { font-size: 1.5em; color: #001158; margin: 0; }
         
         #instruction {

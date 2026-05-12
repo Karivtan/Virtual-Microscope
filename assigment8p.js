@@ -26,8 +26,8 @@ const steps = [
         pregunta: "Find the: second polarizer",
         explicacion: "The second polarizer (analyzer) is placed after the objective to analyze the light's polarization state. Letting light pass that has gone through 2 different optical densities.",
         imagen: "fotos/photofrontzeiss.png",
-        xmin: 400, xmax: 480, 
-        ymin: 600, ymax: 680 
+        xmin: 300, xmax: 600, 
+        ymin: 570, ymax: 670 
     },
     {
         id: "objectives",

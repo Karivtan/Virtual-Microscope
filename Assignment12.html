@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Microscopy Practical - Assignment 12: Polarization</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        
+        * { box-sizing: border-box; }
+        
+        body, html {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; 
+            background-color: #f0f0f0;
+        }
+
+        /* 2. ESTRUCTURA PRINCIPAL */
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* CABECERA  */
+        .top-row {
+            height: 12vh;
+            background-color: #001158;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .top-row-top {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            align-items: center;
+            text-align: center;
+        }
+
+        #Assignment { font-size: 1.8rem; margin: 0; }
+        button { cursor: pointer; padding: 5px 15px; border-radius: 4px; border: 1px solid #ccc; }
+
+        /* CUERPO PRINCIPAL  */
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 88vh;
+        }
+
+        /* COLUMNA IZQUIERDA */
+        .bottom-left {
+            display: grid;
+            grid-template-rows: 8% 62% 30%; 
+            background-color: #e3f2fd;
+            border-right: 2px solid #ccc;
+        }
+
+        .bottom-left-top {
+            background-color: #bbdefb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .bottom-left-middle {
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #sample-display {
+            max-height: 95%;
+            max-width: 95%;
+            object-fit: contain;
+        }
+
+        .bottom-left-bottom {
+            background: #001158;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 10px;
+        }
+
+        /* COLUMNA DERECHA  */
+        .bottom-right {
+            position: relative;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #Microscope {
+            max-height: 85%; 
+            max-width: 90%;
+            object-fit: contain;
+        }
+
+        /* ZONAS DE CLIC SOBRE EL MICROSCOPIO */
+        #analyzer-zone {
+            position: absolute;
+            top: 50%; left: 44%;
+            width: 67px; height: 35px;
+        
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        #polarizer-zone {
+            position: absolute;
+            top: 66%; 
+            left: 43%;
+            width: 69px; 
+            height: 35px;
+           
+            cursor: pointer;
+            z-index: 10;
+        }
+
+      
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        input[type=range] {
+            width: 80%;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        #explanation {
+            margin: 0;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .hidden { 
+            display: none !important;
+         }
+        input[type=range]:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="top-row">
+            <div class="top-row-top">
+                <div class="top-row-left">
+                    <a href="assignment11p.html"><button>Previous Assignment</button></a>
+                </div>
+                <div class="top-row-middle">
+                    <h1 id="Assignment">Assignment 12: Polarization</h1>
+                </div>
+                <div class="top-row-right">
+                    <a href="Assignment13.html"><button disabled>Next Assignment</button></a>
+                </div>
+            </div>
+            
+        </div>
+
+  
+    <div class="bottom-row">
+        
+        <div class="bottom-left">
+            <div class="bottom-left-top">Observation Window</div>
+            <div class="bottom-left-middle">
+                <img id="sample-display" src="samples/ZF_nopol.czi.png">
+            </div>
+            <div class="bottom-left-bottom">
+                <p id="explanation">Insert Polarizers on the microscope to enable rotation.</p>
+                
+              
+                <div id="rotation-controls" class="controls-container hidden">
+                    <label>Rotate Analyzer (0° - 90°):</label>
+                    <input type="range" id="polarizer-slider" min="0" max="90" value="0" disabled>
+                    <span id="angle-val" style="font-weight: bold; font-size: 1.2rem;">0°</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-right">
+            <img id="Microscope" src="fotos/LeicaFront.png">
+          
+            <div id="analyzer-zone" title="Click to insert Analyzer (Top)"></div>
+            <div id="polarizer-zone" title="Click to insert Polarizer (Bottom)"></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="Assignment12.js"></script> 
+
+</body>
+</html>
