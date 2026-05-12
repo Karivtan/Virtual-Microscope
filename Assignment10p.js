@@ -43,9 +43,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
    
     function updateAbbe() {
-        const type = sampleSelector.value;
-        const aperture = parseInt(irisSlider.value);
-        const objective = objSelector.value;
+    
+            const type = sampleSelector.value;
+            const objective = objSelector.value;
+            const aperture = 100;
+      
     
         // A. CARGA DE IMÁGENES
         if (!sampleLoaded || type === "none") {
@@ -109,24 +111,23 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     
         // D. PRINCIPIO DE ABBE (Resolución)
-        let spotDistance = 20; 
+        let spotDistance = 20;
         if (type === "1000") spotDistance = 40;
-        if (type === "diatom2") spotDistance = 15; 
-    
+        if (type === "diatom2") spotDistance = 15;
         let requiredAperture = spotDistance * diffZoom;
-    
         if (sampleLoaded && type !== "none") {
-            if (aperture < requiredAperture) {
-                SampleImage.style.filter = "blur(8px) contrast(0.7)";
-                explanation.innerHTML = "<b>Abbe Principle:</b> Diffraction orders are outside the objective aperture. <span style='color:red;'>Image not resolved.</span>";
-            } else {
-                SampleImage.style.filter = "blur(0px) contrast(1)";
-                explanation.innerHTML = "<b>Abbe Principle:</b> Diffraction orders captured! <span style='color:green;'>Image resolved.</span>";
-            }
+        if (aperture < requiredAperture) {
+        SampleImage.style.filter = "blur(8px) contrast(0.7)";
+        explanation.innerHTML = "<b>Abbe Principle:</b> Diffraction orders are outside the objective aperture. <span style='color:red;'>Image not resolved.</span>";
         } else {
-            explanation.innerHTML = "Load a specimen and observe the diffraction pattern by removing the eyepiece.";
+        SampleImage.style.filter = "blur(0px) contrast(1)";
+        explanation.innerHTML = "<b>Abbe Principle:</b> Diffraction orders captured! <span style='color:green;'>Image resolved.</span>";
         }
-    }
+        } else {
+        explanation.innerHTML = "Load a specimen and observe the diffraction pattern by removing the eyepiece.";
+        }
+        }
+        
 
     // 3. EVENTOS DE INTERFAZ
 
