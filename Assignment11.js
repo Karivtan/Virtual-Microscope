@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const samplePaths = {
                 "500": "samples/sample_foil_500.jpeg",
                 "1000": "samples/sample_foil_1000.jpeg",
+                "square" : "samples/IMG_square.jpg",
                 "diatom1": "samples/sample_diatom1.jpg",
                 "diatom2": "samples/sample_diatom2.jpg"
             };

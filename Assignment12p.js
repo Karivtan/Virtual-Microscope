@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Configuración de estilo para todas las imágenes
     [SampleImage, FDImage, viewImage, CDImage, DiffractionImage].forEach((img, i) => {
-        img.style.cssText = "width:100%; height:100%; position:absolute; top:0; left:0; object-fit:contain; pointer-events:none; display:block;";
+        img.style.cssText = "width:100%;height:100%;position:absolute; top:0; left:0; object-fit:contain; pointer-events:none; display:block;";
         img.style.zIndex = i;
         bottomLeftMiddle.appendChild(img);
     });
@@ -55,12 +55,12 @@ document.addEventListener("DOMContentLoaded", function() {
             SampleImage.src = "";
             SampleImage.style.visibility = "hidden";
         } else {
-            let diffName = (type === "500") ? "diff_500b.png" : "diff_" + type + ".png";
+            let diffName = (type === "500") ? "diff_500b.jpeg" : "diff_" + type + ".png";
             DiffractionImage.src = "samples/" + diffName;
             // Mapeo de muestras
             const samplePaths = {
                 "500": "samples/sample_foil_500.jpeg",
-                "square" : "samples/IMG_square.jpg",
+              
               
             };
             SampleImage.src = samplePaths[type] || "";
@@ -75,14 +75,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // 2. Zooms según el objetivo seleccionado
         let sampleZoom = 1.5; 
-        let diffZoom = 5; 
+        let diffZoom = 0.6; 
         
         if (objective === "40") {
             sampleZoom = 2.5;
-            diffZoom = 2.5;
+            diffZoom = 0.6;
         } else if (objective === "100") {
             sampleZoom = 5;
-            diffZoom = 1.2;
+            diffZoom = 0.6;
         }
     
         // C. MODO TELESCOPIO 
@@ -90,9 +90,9 @@ document.addEventListener("DOMContentLoaded", function() {
             bottomLeftMiddle.style.backgroundColor = "black"; // Evita el fondo blanco
             
             DiffractionImage.style.visibility = "visible";
-            DiffractionImage.style.transform = `scale(${diffZoom})`;
+            DiffractionImage.style.transform = `scale(${0.85})`;
          
-            DiffractionImage.style.clipPath = `circle(${aperture/2.1}% at center)`;
+            DiffractionImage.style.clipPath = `circle(${aperture/1.5}% at center)`;
             
             CDImage.style.visibility = "visible";
             CDImage.style.transform = `scale(${aperture / 20})`; 
@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
         telescopeActive = !telescopeActive;
        
         ocularButton.textContent = telescopeActive ? "put back eyepiece" : "remove Eyepiece";
+        objSelector.disabled = telescopeActive;
         updateAbbe();
     };
 
