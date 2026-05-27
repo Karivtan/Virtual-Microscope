@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // C. MODO TELESCOPIO 
         if (telescopeActive) {
-            bottomLeftMiddle.style.backgroundColor = "black"; // Evita el fondo blanco
+            bottomLeftMiddle.style.backgroundColor = "black"; 
             
             DiffractionImage.style.visibility = "visible";
             DiffractionImage.style.transform = `scale(${0.85})`;

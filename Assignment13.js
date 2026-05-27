@@ -72,6 +72,8 @@ btnRemovePattern.addEventListener('click', function() {
         microscopeImg.src = FOTO_LUZBLANCA_;
         questionText.innerHTML = "<b>Step 5:</b> Diffraction grating removed. Observing in white light.";
         btnRemovePattern.disabled = true;
+        btnPolarizer.disabled = false;
+        btnPerspex.disabled = true;
     } 
 });
 // Botón para reiniciar
