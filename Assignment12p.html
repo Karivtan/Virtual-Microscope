@@ -73,7 +73,12 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
+        transform: scale(1.2); /* Esto hará que todo se vea un 20% más grande */
+    transform-origin: center;
         }
+        #aroCentral, #aroIzq, #aroDer {
+    transform: translate(-50%, -50%);
+}
         .bottom-left-bottom {
     display: flex;
     flex-direction: column;

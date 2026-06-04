@@ -3,7 +3,6 @@
  */
 
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Referencias al DOM
     const bottomLeftMiddle = document.getElementById('bottom-left-middle');
     const sampleSelector = document.getElementById('sample-sel');
     const objSelector = document.getElementById('obj-sel');
@@ -12,129 +11,116 @@ document.addEventListener("DOMContentLoaded", function() {
     const loadButton = document.getElementById('loadButton');
     const explanation = document.getElementById('explanation');
 
-    // Estado de la simulación
     let telescopeActive = false;
     let sampleLoaded = false;
 
-    // 2. Creación de capas de imagen
+    // Elementos
     const SampleImage = document.createElement("img");
-    const FDImage = document.createElement("img"); // Field Diaphragm
-    const CDImage = document.createElement("img"); // Condenser Diaphragm (Aperture)
-    const DiffractionImage = document.createElement("img");
-    const viewImage = document.createElement("img"); // El círculo de luz principal
+    const FDImage = document.createElement("img");
+    const CDImage = document.createElement("img");
+    const viewImage = document.createElement("img");
+    const aroCentral = document.createElement("img");
+    const aroIzq = document.createElement("img");
+    const aroDer = document.createElement("img");
+    const aros = [aroCentral, aroIzq, aroDer];
 
-    // Configuración de estilo para todas las imágenes
-    [SampleImage, FDImage, viewImage, CDImage, DiffractionImage].forEach((img, i) => {
-        img.style.cssText = "width:100%;height:100%;position:absolute; top:0; left:0; object-fit:contain; pointer-events:none; display:block;";
-        img.style.zIndex = i;
+    // Configurar imágenes
+    aroCentral.src = "fotos/PhaseRing2.png";
+    aroIzq.src = "fotos/aro_color1.png";
+    aroDer.src = "fotos/aro_color2.png";
+
+    [SampleImage, FDImage, viewImage, CDImage].forEach((img, i) => {
+        img.style.cssText = "width:100%;height:100%;position:absolute; top:0; left:0; object-fit:contain; pointer-events:none; z-index: " + i;
         bottomLeftMiddle.appendChild(img);
     });
 
-    // Configuración inicial de las imágenes
-    viewImage.src = "fotos/Circle.png"; 
+    aros.forEach(aro => {
+        aro.style.cssText = "position:absolute; transition: all 0.3s ease; z-index: 10; display:none; object-fit:contain;";
+        bottomLeftMiddle.appendChild(aro);
+    });
+
+    viewImage.src = "fotos/Circle.png";
     FDImage.src = "fotos/diaphragmv5.png";
-    FDImage.style.transform = "scale(25)";
-    
     CDImage.src = "fotos/diaphragmv4.png";
-    CDImage.style.visibility = "hidden";
-    
-    DiffractionImage.style.visibility = "hidden";
-    SampleImage.style.visibility = "hidden";
 
-   
+    function setAro(el, left, top) {
+        el.style.left = left;
+        el.style.top = top;
+        el.style.width = "20%";
+        el.style.height = "20%";
+    }
+
     function updateAbbe() {
-    
-            const type = sampleSelector.value;
-            const objective = objSelector.value;
-            const aperture = 100;
-      
-    
-        // A. CARGA DE IMÁGENES
-        if (!sampleLoaded || type === "none") {
-            DiffractionImage.src = "samples/diff_none.png";
-            SampleImage.src = "";
-            SampleImage.style.visibility = "hidden";
-        } else {
-            let diffName = (type === "500") ? "diff_500b.jpeg" : "diff_" + type + ".png";
-            DiffractionImage.src = "samples/" + diffName;
-            // Mapeo de muestras
-            const samplePaths = {
-                "500": "samples/sample_foil_500.jpeg",
-              
-              
-            };
-            SampleImage.src = samplePaths[type] || "";
-            SampleImage.style.visibility = telescopeActive ? "hidden" : "visible";
-        }
-    
-        // B. LÓGICA DE APERTURA DINÁMICA 
-        
-        
-        let viewScale = (aperture / 100) * 7.2; 
-        viewImage.style.transform = `scale(${viewScale})`;
+        const objective = objSelector.value;
+        const type = sampleSelector.value;
 
-        // 2. Zooms según el objetivo seleccionado
-        let sampleZoom = 1.5; 
-        let diffZoom = 0.6; 
-        
-        if (objective === "40") {
-            sampleZoom = 2.5;
-            diffZoom = 0.6;
-        } else if (objective === "100") {
-            sampleZoom = 5;
-            diffZoom = 0.6;
-        }
-    
-        // C. MODO TELESCOPIO 
-        if (telescopeActive) {
-            bottomLeftMiddle.style.backgroundColor = "black"; 
-            
-            DiffractionImage.style.visibility = "visible";
-            DiffractionImage.style.transform = `scale(${0.85})`;
-         
-            DiffractionImage.style.clipPath = `circle(${aperture/1.5}% at center)`;
-            
-            CDImage.style.visibility = "visible";
-            CDImage.style.transform = `scale(${aperture / 20})`; 
-            
-            FDImage.style.visibility = "hidden";
-        } else {
-            
-            bottomLeftMiddle.style.backgroundColor = "white";
-            
-            SampleImage.style.transform = `scale(${sampleZoom})`;
-            
-            CDImage.style.visibility = "hidden";
-            DiffractionImage.style.visibility = "hidden";
-            FDImage.style.visibility = "visible";
-        }
-    
-        // D. PRINCIPIO DE ABBE (Resolución)
-        let spotDistance = 20;
-        if (type === "1000") spotDistance = 40;
-        if (type === "diatom2") spotDistance = 15;
-        let requiredAperture = spotDistance * diffZoom;
+        // 1. Lógica de la MUESTRA (Siempre visible si está cargada)
         if (sampleLoaded && type !== "none") {
-        if (aperture < requiredAperture) {
-        SampleImage.style.filter = "blur(8px) contrast(0.7)";
-        explanation.innerHTML = "<b>Abbe Principle:</b> Diffraction orders are outside the objective aperture. <span style='color:red;'>Image not resolved.</span>";
+            SampleImage.src = "samples/sample_foil_500.jpeg";
+            SampleImage.style.visibility = telescopeActive ? "hidden" : "visible";
+            
+            // Zoom de la muestra según objetivo
+            let zoom = (objective === "10") ? 1.5 : (objective === "40") ? 3 : 7;
+            SampleImage.style.transform = `scale(${zoom})`;
         } else {
-        SampleImage.style.filter = "blur(0px) contrast(1)";
-        explanation.innerHTML = "<b>Abbe Principle:</b> Diffraction orders captured! <span style='color:green;'>Image resolved.</span>";
+            SampleImage.style.visibility = "hidden";
         }
-        } else {
-        explanation.innerHTML = "Load a specimen and observe the diffraction pattern by removing the eyepiece.";
-        }
-        }
-        
 
-    // 3. EVENTOS DE INTERFAZ
+        if (!telescopeActive && sampleLoaded && type !== "none") {
+            viewImage.style.visibility = "visible";
+            
+            // Si el círculo se ve chico, aumenta estos números (ej. cambia 3.5 por 5.0)
+            let circleZoom = (objective === "10") ? 3.5 : (objective === "40") ? 4.5 : 5.5;
+            
+            viewImage.style.transform = `scale(${circleZoom})`;
+            viewImage.style.width = "100%";
+            viewImage.style.height = "100%";
+        } else {
+            viewImage.style.visibility = "hidden";
+        }
+
+       
+
+        // 2. Lógica del TELESCOPIO (Aros)
+        if (telescopeActive) {
+            bottomLeftMiddle.style.backgroundColor = "black";
+            CDImage.style.visibility = "visible";
+            FDImage.style.visibility = "hidden";
+            aros.forEach(a => a.style.display = "block");
+            const sizeCentral = "80%"; 
+            const sizeOtros = "80%";
+
+            if (objective === "10") {
+                setAro(aroCentral, "40%", "35%"); 
+                setAro(aroIzq, "30%", "34%");
+                 setAro(aroDer, "50%", "34%");
+            } else if (objective === "40" || objective === "20") {
+                setAro(aroCentral, "40%", "35%"); 
+                setAro(aroIzq, "35%", "34%");
+                 setAro(aroDer, "45%", "34%");
+            } else if (objective === "100") {
+                setAro(aroCentral, "40%", "35%");
+                 setAro(aroIzq, "36.5%", "34%"); 
+                 setAro(aroDer, "43%", "34%");
+            }
+        } else {
+            bottomLeftMiddle.style.backgroundColor = "white";
+            CDImage.style.visibility = "hidden";
+            FDImage.style.visibility = "visible";
+            FDImage.style.transform = `scale(${25 - (objective/10)})`; 
+            aros.forEach(a => a.style.display = "none");
+        }
+    }
+    function posicionarAro(el, left, top, size) {
+        el.style.left = left;
+        el.style.top = top;
+        el.style.width = size;
+        el.style.height = size;
+    }
 
     ocularButton.onclick = () => {
         telescopeActive = !telescopeActive;
-       
         ocularButton.textContent = telescopeActive ? "put back eyepiece" : "remove Eyepiece";
-        objSelector.disabled = telescopeActive;
         updateAbbe();
     };
 
@@ -144,11 +130,7 @@ document.addEventListener("DOMContentLoaded", function() {
         updateAbbe();
     };
 
-    // Listeners de cambio
-    irisSlider.oninput = updateAbbe;
     sampleSelector.onchange = updateAbbe;
     objSelector.onchange = updateAbbe;
-
-    // Ejecución inicial
     updateAbbe();
-});
+} );
