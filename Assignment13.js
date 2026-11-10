@@ -1,3 +1,8 @@
+/*
+//TODO check workings and improve
+*/
+
+
 // 1. Referencias al DOM
 const microscopeImg = document.getElementById('Microscope');
 const questionText = document.getElementById('question');

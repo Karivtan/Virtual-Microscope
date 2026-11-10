@@ -182,13 +182,13 @@ function loadPP(altText){ //phase plate
   PPImage.style.top = "0";
   PPImage.style.left = "0";
   PPImage.style.zIndex = "1";
-  PPImage.style.transform = "scale("+(myPRScales[0])+")";
+  PPImage.style.transform = "scale("+(myPPScales[0])+")";
   PPImage.style.filter = "opacity(0.5)";
 
   bottomLeftMiddle.appendChild(PPImage);
-  PPImage.style.visibility = "hidden";
+  PPImage.style.visibility = "visible";
   // Code to load the sample
-  console.log("PR loaded!");
+  console.log("PP loaded!");
 }
 
 function loadView(altText) { // the circle of the ocular that you look through

@@ -1,5 +1,8 @@
 /**
  * Assignment 10: Abbe Principle Simulation
+ * Potentially add abbe experiments from thorlab vids 
+ * https://www.youtube.com/watch?v=6mGEGs7vI00&list=PLCZyVBdvAdiDSI6oGkcQtYi2Iub79-8c4
+ * 
  */
 
 document.addEventListener("DOMContentLoaded", function() {

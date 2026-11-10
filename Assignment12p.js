@@ -1,6 +1,9 @@
 /**
  * Assignment 12: Abbe Principle & phase contrast
- */
+ * TODO zoom on rings 
+ * TODO square pattern
+ * TODO change sample images
+  */
 
 document.addEventListener("DOMContentLoaded", function() {
     const bottomLeftMiddle = document.getElementById('bottom-left-middle');
@@ -40,8 +43,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     viewImage.src = "fotos/Circle.png";
-    FDImage.src = "fotos/diaphragmv5.png";
-    CDImage.src = "fotos/diaphragmv4.png";
+    //FDImage.src = "fotos/diaphragmv5.png";
+    //CDImage.src = "fotos/diaphragmv4.png";
 
     function setAro(el, left, top) {
         el.style.left = left;
@@ -76,7 +79,11 @@ document.addEventListener("DOMContentLoaded", function() {
             viewImage.style.width = "100%";
             viewImage.style.height = "100%";
         } else {
-            viewImage.style.visibility = "hidden";
+            viewImage.style.visibility = "visible";
+            let circleZoom = (objective === "10") ? 3.5 : (objective === "40") ? 4.5 : 5.5;
+            viewImage.style.transform = `scale(${circleZoom})`;
+            viewImage.style.width = "100%";
+            viewImage.style.height = "100%";
         }
 
        
@@ -87,27 +94,33 @@ document.addEventListener("DOMContentLoaded", function() {
             CDImage.style.visibility = "visible";
             FDImage.style.visibility = "hidden";
             aros.forEach(a => a.style.display = "block");
-            const sizeCentral = "80%"; 
-            const sizeOtros = "80%";
-
+            const sizeCentral = "90%"; 
+            const sizeOtros = "90%";
+            if (!sampleLoaded){
+                aroIzq.style.visibility="hidden"
+                aroDer.style.visibility="hidden"
+            } else {
+                aroIzq.style.visibility="visible"
+                aroDer.style.visibility="visible"
+            }
             if (objective === "10") {
                 setAro(aroCentral, "40%", "35%"); 
                 setAro(aroIzq, "30%", "34%");
-                 setAro(aroDer, "50%", "34%");
+                setAro(aroDer, "50%", "34%");
             } else if (objective === "40" || objective === "20") {
                 setAro(aroCentral, "40%", "35%"); 
                 setAro(aroIzq, "35%", "34%");
-                 setAro(aroDer, "45%", "34%");
+                setAro(aroDer, "45%", "34%");
             } else if (objective === "100") {
                 setAro(aroCentral, "40%", "35%");
-                 setAro(aroIzq, "36.5%", "34%"); 
-                 setAro(aroDer, "43%", "34%");
+                setAro(aroIzq, "36.5%", "34%"); 
+                setAro(aroDer, "43%", "34%");
             }
         } else {
             bottomLeftMiddle.style.backgroundColor = "white";
             CDImage.style.visibility = "hidden";
-            FDImage.style.visibility = "visible";
-            FDImage.style.transform = `scale(${25 - (objective/10)})`; 
+            //FDImage.style.visibility = "visible";
+            //FDImage.style.transform = `scale(${25 - (objective/10)})`; 
             aros.forEach(a => a.style.display = "none");
         }
     }

@@ -14,8 +14,9 @@ let currentStep = 0;
 const steps = [
     {
         id: "first_polarizer",
-        pregunta: "Find the: First Polarizer",
-        explicacion: "The First Polarizer is located before the specimen. It splits the light beam into two perpendicular oscillating light beams.",
+        pregunta: "Find the: First Polarizer and Nomarski/Wollaston Prism",
+        FoundTxt: "You have found the first Polarizer and Nomarski/Wollaston Prism",
+        explicacion: "The First Polarizer/Prism combination is located before the specimen.\n\nIt splits the light beam into two perpendicular oscillating light beams. \n\nIt is contained within the condensor",
         imagen: "fotos/photofrontzeiss.png",
         clickZoom: "scale(2.2) translate(0px, -180px)", 
         xmin: 400, xmax: 550, 
@@ -24,14 +25,16 @@ const steps = [
     {
         id: "filter_cube",
         pregunta: "Find the: second polarizer",
-        explicacion: "The second polarizer (analyzer) is placed after the objective to analyze the light's polarization state. Letting light pass that has gone through 2 different optical densities.",
+        FoundTxt: "You have found the second polarizer",
+        explicacion: "The second polarizer (analyzer) is placed after the objective to analyze the light's polarization state.\n\n It allows light to pass that has gone through 2 different optical densities.",
         imagen: "fotos/photofrontzeiss.png",
         xmin: 300, xmax: 600, 
         ymin: 570, ymax: 670 
     },
     {
         id: "objectives",
-        pregunta: "Find the: Nomarski Prism (DIC) ",
+        pregunta: "Find the: Nomarski/Wollaston Prism",
+        
         imagen: "fotos/photosintapa.jpg",
         clickZoom: "scale(2.5) translate(0px, -120px)",
         xmin: 400, xmax: 550, 
@@ -39,8 +42,9 @@ const steps = [
     },
     {
         id: "nomarski",
-        pregunta: "Find the: Nomarski Prism (DIC)",
-        explicacion: "The prism recombines the sheared light beams.",
+        pregunta: "Find the: Nomarski Prism/Wollaston",
+        FoundTxt: "You have found the second Nomarski/Wollaston Prism",
+        explicacion: "The second Nomarski prism is placed just above the objective to recombine the light that has moved through the sample.\n\n On the right is the DIC prism component you just located.",
         imagen: "fotos/photosintapa.jpg",
         zoom: "scale(2.8) translate(0px, -80px)", // Este paso SI tiene zoom inicial
         xmin: 490, xmax: 550, 
@@ -72,8 +76,8 @@ function updateUI() {
         // Mostramos DIRECTAMENTE los mensajes de victoria
         toastr.success("Assignment 7 completed!", "Congratulations!");
         question.textContent = "All components found!";
-        instruction.textContent = "You have completed the identification path.";
-        explanation.textContent = "1st prism, splitting the beams (combined with polarizer), 2nd prism, recombining the beams, analyzer emphasizing the beams that have been altered by the sample";
+        instruction.textContent = "You have identified all DIC components.";
+        explanation.textContent = "1. Polarizer - polarizes the light so all light vibrates in one direction\n 2. 1st Wollaston/Nomarski prism, splits the beam into two spatially seperated beams\n3. Specimen, alters the phase if the beams go through the sample\n4. 2nd prism, recombining the beams\n5. Analyzer emphasizing the beams that have been altered by the sample";
         explanation.style.display = "block";
         
         // Bloqueamos el ratón para que no ruede más el juego
@@ -125,6 +129,7 @@ microscope.addEventListener('click', function(event) {
         // 2. MOSTRAR EXPLICACIÓN
         explanation.style.display = "block";
         explanation.textContent = step.explicacion;
+        question.textContent = step.FoundTxt;
 
         // 3. LÓGICA SEGÚN EL PASO
         if (step.id === "objectives") {

@@ -3,8 +3,8 @@ const lab = {
     folder: "fotos/",
     // Objetivos: 2.5x (0), 5x (1), 10x (2), 20x (3), 40x (4), 100x (5)
     objectives: [
-    "fotos/OBJECTIVE Z 2,5X.JPG",
-    "fotos/OBJECTIVE Z 5X.JPG",
+    //"fotos/OBJECTIVE Z 2,5X.JPG",
+    //"fotos/OBJECTIVE Z 5X.JPG",
     "fotos/OBJECTIVE Z 10X.JPG",
     "fotos/OBJECTIVE Z 20X.png",
     "fotos/OBJECTIVE40X.JPG",
@@ -66,63 +66,64 @@ const lab = {
     // --- LÓGICA DE SELECCIÓN DE MUESTRAS (DIC / DICL) ---
     
     // 1. CONFIGURACIONES PARA DIC ESTÁNDAR
-    if (currentObj === 2 && currentDC === 6) { // 10x + Fase I/H
+    if (currentObj === 0 && currentDC === 6) { // 10x + Fase I/H
     isCorrect = true;
     technique = "DIC 10x";
     selectedSample = "samples/CheekEpithelialCellsDICL100x-3042.czi.jpg";
     }
-    else if (currentObj === 3 && currentDC === 0) { // 20x + Fase II
+    else if (currentObj === 1 && currentDC === 0) { // 20x + Fase II
     isCorrect = true;
     technique = "DIC 20x";
     selectedSample = "samples/CheekEpithelialCellsDIC20x-3035.czi.png";
     }
-    else if (currentObj === 4 && currentDC === 0) { // 40x + Fase II
+    else if (currentObj === 2 && currentDC === 0) { // 40x + Fase II
     isCorrect = true;
     technique = "DIC 40x";
     selectedSample = "samples/CheekEpithelialCellsDIC40x-3037.czi.png";
     }
-    else if (currentObj === 5 && currentDC === 1) { // 100x + Fase III
+    else if (currentObj === 3 && currentDC === 1) { // 100x + Fase III
     isCorrect = true;
     technique = "DIC 100x";
     selectedSample = "samples/CheekEpithelialCellsDIC100x-3039.czi.png";
     }
     // 2. CONFIGURACIONES PARA PC ESTÁNDAR
-    else if (currentDC === 2 && currentObj === 2) { // Ph1 + 10x
+    else if (currentDC === 2 && currentObj === 0) { // Ph1 + 10x
         isCorrect = true;
         technique = "PHASE 1";
         selectedSample = "samples/cheekephitelialcellsPC10xpc-06.czi.png";
     }
-    else if (currentDC === 3 && (currentObj === 3 || currentObj === 4)) { // Ph2 + 20/40x
+    else if (currentDC === 3 && (currentObj === 1 || currentObj === 2)) { // Ph2 + 20/40x
         isCorrect = true;
         technique = "PHASE 2";
-        selectedSample = (currentObj === 3) ? "samples/cheekephitelialcellsPC20xpc-05.czi.png" : "samples/cheekephitelialcellsPC40xPC-04.czi.png";
+        selectedSample = (currentObj === 1) ? "samples/cheekephitelialcellsPC20xpc-05.czi.png" : "samples/cheekephitelialcellsPC40xPC-04.czi.png";
     }
-    else if (currentDC === 4 && currentObj === 5) { // Ph3 + 100x
+    else if (currentDC === 4 && currentObj === 3) { // Ph3 + 100x
         isCorrect = true;
         technique = "PHASE 3";
         selectedSample = "samples/cheekephitelialcellsPC100xPC-14.czi.png";
     }
     // 3. CONFIGURACIÓN PARA D 
-    // Usamos Fase I/H (Índice 6) como el disparador para la muestra Lineal en 100x
-    if ((currentObj === 2 || currentObj === 3) && currentDC === 5) {
-    isCorrect = true;
-    technique = "DARK FIELD" + (currentObj === 2 ? "10x" : "20x");
-    selectedSample = "samples/CheekEpithelialCellsDIC10x-3034.czi.png";
-    // Aplicamos el zoom a la muestra del ocular (sampleImg)
-    if (currentObj === 3) {
-    // SI ES 20x:
-    sampleImg.classList.add("zoom-sample");
-    sampleImg.classList.remove("normal-sample");
-    } else {
-    // SI ES 10x: Tamaño normal
-    sampleImg.classList.add("normal-sample");
-    sampleImg.classList.remove("zoom-sample");
+    else if (currentDC === 5 && currentObj === 0) { // D + 10x
+        isCorrect = true;
+        technique = "Darkfield";
+        selectedSample = "samples/cheekephitelialcellsPC10xd-08.czi.png";
     }
-    } else {
-    sampleImg.classList.remove("zoom-sample");
-    sampleImg.classList.add("normal-sample");
+    else if (currentDC === 5 && currentObj === 1) { // D + 20x
+        isCorrect = true;
+        technique = "Darkfield";
+        selectedSample = "samples/cheekephitelialcellsPC20xD-09.czi.png";
     }
-   
+    else if (currentDC === 5 && currentObj === 2) { // D + 40x
+        isCorrect = true;
+        technique = "Darkfield";
+        selectedSample = "samples/cheekephitelialcellsPC40xD-10.czi.png";
+    }
+    else if (currentDC === 5 && currentObj === 3) { // D + 100x
+        isCorrect = true;
+        technique = "Darkfield";
+        selectedSample = "samples/cheekephitelialcellsPC100xD-12.czi.png";
+    }
+       
    // --- MANEJO DE RESULTADOS ---
    if (isCorrect) {
     sampleImg.src = selectedSample;

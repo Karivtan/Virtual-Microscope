@@ -1,3 +1,7 @@
+/*
+#TODO add pictures with and without polarization filter
+*/
+
 document.addEventListener("DOMContentLoaded", function() {
     const analyzerZone = document.getElementById('analyzer-zone');
     const polarizerZone = document.getElementById('polarizer-zone');
@@ -47,19 +51,19 @@ document.addEventListener("DOMContentLoaded", function() {
         const angle = parseInt(slider.value);
         angleVal.innerText = angle + "°";
 
-        if (angle < 18) {
+        if ((angle < 18) ||(angle >= 162 && angle < 198)||(angle >= 342)){
             sampleImg.src = "samples/ZF_nopol.czi.png";
         } 
-        else if (angle >= 18 && angle < 36) {
+        else if ((angle >= 18 && angle < 36)||(angle >= 198 && angle < 216)||(angle >= 144 && angle < 162)||(angle >= 324 && angle < 342)) {
             sampleImg.src = "samples/ZF01.czi.png"; 
         } 
-        else if (angle >= 36 && angle < 54) {
+        else if ((angle >= 36 && angle < 54) ||(angle >= 216 && angle < 234)||(angle >= 126 && angle < 144)||(angle >= 306 && angle < 324)){
             sampleImg.src = "samples/ZF02.czi.png";
         } 
-        else if (angle >= 54 && angle < 75) {
+        else if ((angle >= 54 && angle < 75)||(angle >= 234 && angle < 255)||(angle >= 105 && angle < 126)||(angle >= 285 && angle < 306)) {
             sampleImg.src = "samples/ZF03.czi.png"; 
         } 
-        else {
+        else if ((angle >= 75 && angle < 105) || (angle >= 255 && angle < 285)) {
             sampleImg.src = "samples/ZF04_correct.czi.png";
             explanation.innerHTML = "<span style='color:#4caf50;'><b>90° - Crossed Polarizers:</b></span> Birefringent muscle fibers are visible.";
         }

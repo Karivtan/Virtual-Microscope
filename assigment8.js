@@ -1,3 +1,4 @@
+//TODO add better objective pictures
 const lab = {
     folder: "fotos/",
     objectives: [
@@ -107,14 +108,20 @@ function update() {
     if (isCorrect) {
         sampleImg.src = selectedSample; 
         sampleImg.classList.remove('blurry');
-        statusText.innerText = "✓ ALIGNED: Configuration matches the sample.";
+        if (currentDC ===1){
+            statusText.innerText = "✓ ALIGNED: Configuration matches the sample. Darkfield mode selected";    
+        } else if (currentDC===0){
+            statusText.innerText = "✓ ALIGNED: Configuration matches the sample. Brightfield mode selected";
+        } else {
+            statusText.innerText = "✓ ALIGNED: Configuration matches the sample. Phase contrast selected";
+        }
         statusText.style.color = "green";
-        nextBtn.disabled = false;
+        //nextBtn.disabled = false;
     } else {
-        sampleImg.src = "fotos/mitosis_view.jpg"; 
+        sampleImg.src = ""; 
         sampleImg.classList.add('blurry');
         statusText.innerText = "✗ ERROR: D.C. mismatch for this objective.";
         statusText.style.color = "red";
-        nextBtn.disabled = true;
+       // nextBtn.disabled = true;
     }
 } //

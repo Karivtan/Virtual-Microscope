@@ -1,5 +1,6 @@
 /**
  * Assignment 10: Fluorescence Filter Block Assembly
+ * TODO add spectra on the right above image
  */
 
 console.log("Assignment 10: JS Loaded with extended logic");
