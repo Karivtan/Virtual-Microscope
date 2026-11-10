@@ -191,7 +191,7 @@ function getAbsolutClickPosition(event, MicImage) {
 }
 function initGame() {
     currentStep = 0;
-    if(assignmentText) assignmentText.textContent = "DIC & Fluorescence Identification";
+    if(assignmentText) assignmentText.textContent = "Differential Interference Contrast";
     updateUI();
 
 }
